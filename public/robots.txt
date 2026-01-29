@@ -1,0 +1,21 @@
+# Robots.txt for AK Designs
+# https://www.akdesigns.space/robots.txt
+
+# Allow all crawlers to access public pages
+User-agent: *
+Allow: /
+Allow: /about
+Allow: /projects
+Allow: /blog
+Allow: /contact
+
+# Disallow admin and setup pages
+Disallow: /admin
+Disallow: /admin/*
+Disallow: /setup
+
+# Disallow API endpoints (if any are exposed on frontend)
+Disallow: /api/
+
+# Sitemap location
+Sitemap: https://www.akdesigns.space/sitemap.xml

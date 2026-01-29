@@ -1,7 +1,8 @@
 import { useState, useEffect } from 'react';
 import { motion } from 'framer-motion';
-import { Quote, Loader2 } from 'lucide-react';
+import { Quote } from 'lucide-react';
 import api from '../api/config';
+import LoadingScreen from './LoadingScreen';
 import './Testimonials.css';
 
 const Testimonials = () => {
@@ -23,7 +24,7 @@ const Testimonials = () => {
         fetchTestimonials();
     }, []);
 
-    if (loading) return null; // Or a small spinner
+    if (loading) return <LoadingScreen />;
     if (testimonials.length === 0) return null;
 
     return (
