@@ -11,6 +11,8 @@ import ProjectDetail from './pages/ProjectDetail';
 import BlogDetail from './pages/BlogDetail';
 import Setup from './pages/Setup';
 import ReviewButton from './components/ReviewButton';
+import ScrollToTop from './components/ScrollToTop';
+import ScrollToTopButton from './components/ScrollToTopButton';
 
 // Admin Imports
 import Login from './admin/Login';
@@ -28,15 +30,16 @@ function App() {
   return (
     <AuthProvider>
       <Router>
+        <ScrollToTop />
         <Routes>
           {/* Public Routes */}
-          <Route path="/" element={<><Navbar /><Home /><ReviewButton /><Footer /></>} />
-          <Route path="/about" element={<><Navbar /><AboutPage /><ReviewButton /><Footer /></>} />
-          <Route path="/projects" element={<><Navbar /><ProjectsPage /><Footer /></>} />
-          <Route path="/projects/:slug" element={<><Navbar /><ProjectDetail /><Footer /></>} />
-          <Route path="/blog" element={<><Navbar /><BlogPage /><Footer /></>} />
-          <Route path="/blog/:slug" element={<><Navbar /><BlogDetail /><Footer /></>} />
-          <Route path="/contact" element={<><Navbar /><ContactPage /><Footer /></>} />
+          <Route path="/" element={<><Navbar /><Home /><ReviewButton /><ScrollToTopButton /><Footer /></>} />
+          <Route path="/about" element={<><Navbar /><AboutPage /><ReviewButton /><ScrollToTopButton /><Footer /></>} />
+          <Route path="/projects" element={<><Navbar /><ProjectsPage /><ScrollToTopButton /><Footer /></>} />
+          <Route path="/projects/:slug" element={<><Navbar /><ProjectDetail /><ScrollToTopButton /><Footer /></>} />
+          <Route path="/blog" element={<><Navbar /><BlogPage /><ScrollToTopButton /><Footer /></>} />
+          <Route path="/blog/:slug" element={<><Navbar /><BlogDetail /><ScrollToTopButton /><Footer /></>} />
+          <Route path="/contact" element={<><Navbar /><ContactPage /><ScrollToTopButton /><Footer /></>} />
           <Route path="/setup" element={<Setup />} />
 
           {/* Admin Routes */}

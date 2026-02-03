@@ -1,0 +1,128 @@
+.tools-section {
+    padding: 80px 0;
+    background: linear-gradient(180deg, var(--bg-color) 0%, rgba(5, 10, 7, 0.95) 100%);
+    overflow: hidden;
+}
+
+.tools-header {
+    text-align: center;
+    margin-bottom: 60px;
+}
+
+.tools-header .section-title {
+    font-size: 1rem;
+    color: var(--accent-color);
+    margin-bottom: var(--spacing-md);
+    letter-spacing: 0.2em;
+    text-transform: uppercase;
+}
+
+.tools-subtitle {
+    font-family: var(--font-headline);
+    font-size: 2rem;
+    color: var(--text-primary);
+    margin: 0;
+}
+
+.tools-scroll-container {
+    position: relative;
+    width: 100%;
+    overflow: hidden;
+    padding: 20px 0;
+}
+
+.tools-scroll-container::before,
+.tools-scroll-container::after {
+    content: '';
+    position: absolute;
+    top: 0;
+    width: 150px;
+    height: 100%;
+    z-index: 2;
+    pointer-events: none;
+}
+
+.tools-scroll-container::before {
+    left: 0;
+    background: linear-gradient(90deg, var(--bg-color) 0%, transparent 100%);
+}
+
+.tools-scroll-container::after {
+    right: 0;
+    background: linear-gradient(270deg, var(--bg-color) 0%, transparent 100%);
+}
+
+.tools-track {
+    display: flex;
+    gap: 30px;
+    width: fit-content;
+}
+
+.tool-card {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 15px;
+    min-width: 140px;
+    padding: 20px;
+    background: var(--card-bg);
+    border-radius: var(--radius-md);
+    transition: transform 0.3s ease, box-shadow 0.3s ease;
+}
+
+.tool-card:hover {
+    transform: translateY(-5px);
+    box-shadow: 0 10px 30px rgba(230, 234, 26, 0.15);
+}
+
+.tool-icon {
+    width: 70px;
+    height: 70px;
+    border-radius: 12px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-family: var(--font-headline);
+    font-size: 1.8rem;
+    font-weight: 700;
+    transition: transform 0.3s ease;
+}
+
+.tool-card:hover .tool-icon {
+    transform: scale(1.1);
+}
+
+.tool-name {
+    font-size: 0.9rem;
+    color: var(--text-secondary);
+    text-align: center;
+    margin: 0;
+    font-weight: 500;
+}
+
+/* Responsive */
+@media (max-width: 768px) {
+    .tools-subtitle {
+        font-size: 1.5rem;
+    }
+
+    .tool-card {
+        min-width: 120px;
+        padding: 15px;
+    }
+
+    .tool-icon {
+        width: 60px;
+        height: 60px;
+        font-size: 1.5rem;
+    }
+
+    .tool-name {
+        font-size: 0.85rem;
+    }
+
+    .tools-scroll-container::before,
+    .tools-scroll-container::after {
+        width: 50px;
+    }
+}

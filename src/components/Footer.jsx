@@ -26,7 +26,8 @@ const Footer = () => {
                         <h4>Connect</h4>
                         <ul>
                             <li><Link to="/contact">Contact</Link></li>
-                            <li><a href="mailto:hello@akdesign.com">hello@akdesign.com</a></li>
+                            <li><a href="mailto:akgraphicdesign2007@gmail.com">akgraphicdesign2007@gmail.com</a></li>
+                            <li><a href="tel:++91 91770 58657">+91 91770 58657</a></li>
                         </ul>
                         <div className="footer-socials">
                             <a href="#" aria-label="Instagram"><Instagram size={20} /></a>

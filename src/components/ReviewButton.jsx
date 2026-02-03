@@ -43,7 +43,10 @@ const ReviewButton = () => {
                     animate={{ x: 0 }}
                     whileHover={{ x: -5 }}
                     className="review-trigger-btn"
-                    onClick={() => setIsOpen(true)}
+                    onClick={() => {
+                        window.scrollTo({ top: 0, behavior: 'smooth' });
+                        setIsOpen(true);
+                    }}
                 >
                     <Star size={18} fill="#050a07" /> Review Me
                 </motion.button>
@@ -94,9 +97,10 @@ const ReviewButton = () => {
                                             />
                                             <input
                                                 type="text"
-                                                placeholder="Role (Optional)"
+                                                placeholder="Role"
                                                 value={formData.role}
                                                 onChange={e => setFormData({ ...formData, role: e.target.value })}
+                                                required
                                             />
                                         </div>
                                         <div className="form-group">

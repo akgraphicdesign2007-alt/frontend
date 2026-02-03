@@ -59,7 +59,7 @@ const Hero = () => {
                     <a href="#projects" className="btn btn-primary">
                         View Work
                     </a>
-                    <a href="#contact" className="btn btn-outline">
+                    <a href="/contact" className="btn btn-outline">
                         Contact Me <ArrowRight size={18} />
                     </a>
                 </motion.div>
