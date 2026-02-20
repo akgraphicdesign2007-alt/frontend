@@ -5,14 +5,15 @@ import {
     Image,
     FileText,
     MessageSquare,
-    Mail,
     LogOut,
     Globe,
     Quote,
     User,
-    Users
+    Users,
+    Settings,
+    Bell
 } from 'lucide-react';
-import '../components/Navbar.css'; // Re-use some styles
+import '../admin/AdminStyle.css';
 
 const AdminLayout = () => {
     const { logout, user } = useAuth();
@@ -24,89 +25,75 @@ const AdminLayout = () => {
         { name: 'Projects', path: '/admin/projects', icon: <Image size={20} /> },
         { name: 'Blog', path: '/admin/blog', icon: <FileText size={20} /> },
         { name: 'Users', path: '/admin/users', icon: <Users size={20} /> },
+        { name: 'Site Settings', path: '/admin/settings', icon: <Settings size={20} /> },
         { name: 'Inbox', path: '/admin/inbox', icon: <MessageSquare size={20} /> },
         { name: 'Testimonials', path: '/admin/testimonials', icon: <Quote size={20} /> },
     ];
 
+    // Determine initials for Avatar
+    const getInitials = (name) => {
+        if (!name) return 'A';
+        const parts = name.split(' ');
+        if (parts.length >= 2) return `${parts[0][0]}${parts[1][0]}`.toUpperCase();
+        return parts[0][0].toUpperCase();
+    }
+
     return (
-        <div style={{ display: 'flex', minHeight: '100vh', backgroundColor: '#0a0a0a' }}>
+        <div className="admin-layout-container">
             {/* Sidebar */}
-            <aside style={{
-                width: '260px',
-                backgroundColor: '#050a07',
-                borderRight: '1px solid rgba(255,255,255,0.05)',
-                display: 'flex',
-                flexDirection: 'column',
-                position: 'fixed',
-                height: '100vh',
-                zIndex: 100
-            }}>
-                <div style={{ padding: '30px' }}>
-                    <h2 style={{ color: '#fff', fontSize: '1.2rem', fontFamily: 'Oswald, sans-serif' }}>AK ADMIN</h2>
-                    <p style={{ color: 'rgba(255,255,255,0.4)', fontSize: '0.8rem', marginTop: '5px' }}>Logged in as {user?.name}</p>
+            <aside className="admin-sidebar">
+                <div className="admin-sidebar-header">
+                    <h2>AK<span>ADMIN</span></h2>
                 </div>
 
-                <nav style={{ flex: 1, padding: '0 15px' }}>
-                    <ul style={{ listStyle: 'none', padding: 0 }}>
-                        {sidebarItems.map(item => (
-                            <li key={item.path} style={{ marginBottom: '5px' }}>
-                                <Link
-                                    to={item.path}
-                                    style={{
-                                        display: 'flex',
-                                        alignItems: 'center',
-                                        gap: '12px',
-                                        padding: '12px 15px',
-                                        borderRadius: '8px',
-                                        color: location.pathname === item.path ? '#050a07' : 'rgba(255,255,255,0.7)',
-                                        backgroundColor: location.pathname === item.path ? '#E6EA1A' : 'transparent',
-                                        textDecoration: 'none',
-                                        fontSize: '0.95rem',
-                                        fontWeight: 500,
-                                        transition: 'all 0.2s'
-                                    }}
-                                >
-                                    {item.icon} {item.name}
-                                </Link>
-                            </li>
-                        ))}
-                    </ul>
+                <nav className="admin-sidebar-nav">
+                    {sidebarItems.map(item => (
+                        <Link
+                            key={item.path}
+                            to={item.path}
+                            className={`admin-nav-item ${location.pathname === item.path ? 'active' : ''}`}
+                        >
+                            {item.icon} {item.name}
+                        </Link>
+                    ))}
                 </nav>
 
-                <div style={{ padding: '20px', borderTop: '1px solid rgba(255,255,255,0.05)' }}>
-                    <Link to="/" target="_blank" style={{
-                        display: 'flex',
-                        alignItems: 'center',
-                        gap: '10px',
-                        color: 'rgba(255,255,255,0.6)',
-                        textDecoration: 'none',
-                        marginBottom: '15px',
-                        fontSize: '0.9rem'
-                    }}>
-                        <Globe size={18} /> View Site
+                <div className="admin-sidebar-footer">
+                    <Link to="/" target="_blank" className="admin-footer-link">
+                        <Globe size={18} /> View Live Site
                     </Link>
-                    <button
-                        onClick={logout}
-                        style={{
-                            display: 'flex',
-                            alignItems: 'center',
-                            gap: '10px',
-                            background: 'transparent',
-                            border: 'none',
-                            color: '#ff4d4d',
-                            cursor: 'pointer',
-                            fontSize: '0.9rem',
-                            padding: 0
-                        }}
-                    >
+                    <button onClick={logout} className="admin-logout-btn">
                         <LogOut size={18} /> Logout
                     </button>
                 </div>
             </aside>
 
-            {/* Main Content */}
-            <main style={{ flex: 1, padding: '40px', marginLeft: '260px', overflowY: 'auto' }}>
-                <Outlet />
+            {/* Main Content Area */}
+            <main className="admin-main-content">
+
+                {/* Topbar */}
+                <header className="admin-topbar">
+                    <div style={{ display: 'flex', alignItems: 'center', gap: '25px' }}>
+                        <div style={{ position: 'relative', cursor: 'pointer', color: 'rgba(255,255,255,0.6)' }}>
+                            <Bell size={20} />
+                            <span style={{ position: 'absolute', top: -2, right: -2, width: 8, height: 8, background: '#ff4d4d', borderRadius: '50%' }}></span>
+                        </div>
+                        <div style={{ width: '1px', height: '30px', background: 'rgba(255,255,255,0.1)' }}></div>
+                        <div className="admin-user-profile">
+                            <div className="admin-user-info" style={{ textAlign: 'right' }}>
+                                <h4>{user?.name || 'Administrator'}</h4>
+                                <span>{user?.role || 'Admin'}</span>
+                            </div>
+                            <div className="admin-user-avatar">
+                                {getInitials(user?.name)}
+                            </div>
+                        </div>
+                    </div>
+                </header>
+
+                <div className="admin-page-container">
+                    <Outlet />
+                </div>
             </main>
         </div>
     );

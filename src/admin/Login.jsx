@@ -86,6 +86,16 @@ const Login = () => {
 
                     {error && <p className="error-msg" style={{ textAlign: 'center' }}>{error}</p>}
 
+                    <div style={{ textAlign: 'right', marginBottom: '15px' }}>
+                        <a
+                            onClick={(e) => { e.preventDefault(); navigate('/admin/forgot-password'); }}
+                            href="/admin/forgot-password"
+                            style={{ color: 'var(--accent-color)', fontSize: '0.9rem', textDecoration: 'none' }}
+                        >
+                            Forgot Password?
+                        </a>
+                    </div>
+
                     <button type="submit" className="submit-btn" disabled={loading} style={{ width: '100%' }}>
                         {loading ? <Loader2 className="animate-spin" size={20} /> : 'Sign In'}
                     </button>

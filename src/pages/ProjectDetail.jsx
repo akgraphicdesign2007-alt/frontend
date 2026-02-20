@@ -1,28 +1,43 @@
 import { useState, useEffect } from 'react';
 import { useParams, Link, useLocation } from 'react-router-dom';
-import { ArrowLeft, Loader2 } from 'lucide-react';
+import { ArrowLeft, Loader2, Calendar, User, Tag } from 'lucide-react';
+import { motion, useScroll, useTransform } from 'framer-motion';
 import api from '../api/config';
 import './ProjectDetail.css';
+
+const fadeUpVariant = {
+    hidden: { opacity: 0, y: 30 },
+    visible: { opacity: 1, y: 0, transition: { duration: 0.8, ease: "easeOut" } }
+};
+
+const staggerContainer = {
+    hidden: { opacity: 0 },
+    visible: {
+        opacity: 1,
+        transition: {
+            staggerChildren: 0.2
+        }
+    }
+};
 
 const ProjectDetail = () => {
     const { slug } = useParams();
     const location = useLocation();
-    // Prefer data passed via state, otherwise null (will fetch)
+
     const [project, setProject] = useState(location.state?.project || null);
     const [loading, setLoading] = useState(!location.state?.project);
     const [error, setError] = useState(null);
 
+    const { scrollY } = useScroll();
+    const yHero = useTransform(scrollY, [0, 800], [0, 300]);
+    const opacityHero = useTransform(scrollY, [0, 500], [1, 0]);
+
     useEffect(() => {
-        // If we already have the project from state, no need to fetch
         if (project) return;
 
         const fetchProject = async () => {
             setLoading(true);
             try {
-                // Try fetching all galleries and finding the one with matching slug
-                // Note: Ideally the backend has an endpoint for this, but for now we search client-side if needed
-                // OR we assume slug might be passed differently. 
-                // Since our backend doesn't native support slugs on Gallery, we likely need to fetch all and find.
                 const res = await api.get('/gallery');
                 const allProjects = res.data.data || res.data;
                 const found = allProjects.find(p => {
@@ -50,49 +65,118 @@ const ProjectDetail = () => {
 
     if (error || !project) {
         return (
-            <div className="container" style={{ paddingTop: '120px', textAlign: 'center' }}>
-                <h2>{error || 'Project Not Found'}</h2>
-                <Link to="/projects" className="back-link">Back to Projects</Link>
+            <div className="container" style={{ minHeight: '100vh', display: 'flex', flexDirection: 'column', justifyContent: 'center', alignItems: 'center' }}>
+                <h2 style={{ fontSize: '2rem', marginBottom: '20px', color: 'var(--text-primary)' }}>{error || 'Project Not Found'}</h2>
+                <Link to="/projects" className="back-link" style={{ marginBottom: 0 }}>Back to Projects</Link>
             </div>
         );
     }
 
-    // Determine background style
-    const bgStyle = project.imageUrl?.startsWith('http') ? `url(${project.imageUrl}) center/cover` : project.imageUrl || '#111';
+    const bgImage = project.imageUrl?.startsWith('http') ? project.imageUrl : null;
+    const bgStyle = bgImage ? `url(${bgImage}) center/cover` : project.imageUrl || '#111';
 
     return (
         <article className="project-detail">
-            <div className="project-hero" style={{ background: bgStyle }}>
-                <div className="container">
-                    <h1>{project.title}</h1>
-                    <span className="category-tag">{project.category}</span>
+            {/* HER0 - uses Framer Motion for Parallax background */}
+            <div className="project-hero" style={{ overflow: 'hidden' }}>
+                <motion.div
+                    style={{
+                        position: 'absolute',
+                        inset: -50,
+                        background: bgStyle,
+                        backgroundPosition: 'center',
+                        backgroundSize: 'cover',
+                        y: yHero,
+                        opacity: opacityHero
+                    }}
+                />
+                <div className="container hero-content">
+                    <motion.div
+                        initial={{ opacity: 0, y: 50 }}
+                        animate={{ opacity: 1, y: 0 }}
+                        transition={{ duration: 1, delay: 0.2 }}
+                    >
+                        <span className="category-tag"><Tag size={12} style={{ display: 'inline', marginRight: '5px' }} /> {project.category}</span>
+                        <h1 dangerouslySetInnerHTML={{ __html: project.title.replace(/\n/g, '<br/>') }}></h1>
+                    </motion.div>
                 </div>
             </div>
 
             <div className="container project-content-wrapper">
-                <Link to="/projects" className="back-link">
-                    <ArrowLeft size={16} /> All Projects
-                </Link>
+                <motion.div
+                    initial={{ opacity: 0, x: -20 }}
+                    animate={{ opacity: 1, x: 0 }}
+                    transition={{ duration: 0.6, delay: 0.4 }}
+                >
+                    <Link to="/projects" className="back-link">
+                        <ArrowLeft size={16} /> Back to Gallery
+                    </Link>
+                </motion.div>
 
                 <div className="project-grid-layout">
-                    <div className="main-content">
-                        <h3>About the Project</h3>
-                        <p>{project.description}</p>
+                    {/* Main Left Content */}
+                    <motion.div
+                        className="main-content"
+                        variants={staggerContainer}
+                        initial="hidden"
+                        animate="visible"
+                    >
+                        <motion.div variants={fadeUpVariant}>
+                            <h3>Project Overview</h3>
+                            <p style={{ fontSize: '1.25rem', color: '#fff' }}>{project.description}</p>
 
-                        {/* Render extra content if available mostly placeholder logic for now */}
-                        <div className="placeholder-image">Project Visuals</div>
-                    </div>
+                            {project.aboutProject && project.aboutProject !== project.description && (
+                                <p style={{ marginTop: '20px' }}>
+                                    {project.aboutProject}
+                                </p>
+                            )}
+                        </motion.div>
 
-                    <aside className="project-meta">
+                        <motion.div className="branding-images-grid" variants={staggerContainer}>
+                            {project.brandingImages && project.brandingImages.length > 0 ? (
+                                project.brandingImages.map((img, idx) => (
+                                    <motion.div
+                                        key={idx}
+                                        className="branding-image-wrapper"
+                                        variants={fadeUpVariant}
+                                        whileInView={{ opacity: 1, y: 0 }}
+                                        viewport={{ once: true, margin: "-100px" }}
+                                    >
+                                        <img
+                                            src={img.url}
+                                            alt={`${project.title} Visual ${idx + 1}`}
+                                            loading="lazy"
+                                        />
+                                    </motion.div>
+                                ))
+                            ) : (
+                                <motion.div variants={fadeUpVariant} className="placeholder-image">
+                                    Visuals coming soon
+                                </motion.div>
+                            )}
+                        </motion.div>
+                    </motion.div>
+
+                    {/* Right Sidebar Meta Data - Sticky */}
+                    <motion.aside
+                        className="project-meta"
+                        initial={{ opacity: 0, y: 30 }}
+                        animate={{ opacity: 1, y: 0 }}
+                        transition={{ duration: 0.8, delay: 0.5 }}
+                    >
                         <div className="meta-item">
-                            <h4>Client</h4>
+                            <h4><User size={14} style={{ display: 'inline', marginRight: '6px', transform: 'translateY(-1px)' }} />Client</h4>
                             <p>{project.client || 'Confidential'}</p>
                         </div>
                         <div className="meta-item">
-                            <h4>Date</h4>
-                            <p>{project.createdAt ? new Date(project.createdAt).toLocaleDateString() : 'N/A'}</p>
+                            <h4><Calendar size={14} style={{ display: 'inline', marginRight: '6px', transform: 'translateY(-1px)' }} />Delivered</h4>
+                            <p>{project.date || (project.createdAt ? new Date(project.createdAt).toLocaleDateString('en-US', { year: 'numeric', month: 'long' }) : 'N/A')}</p>
                         </div>
-                    </aside>
+                        <div className="meta-item" style={{ borderBottom: 'none', paddingBottom: 0 }}>
+                            <h4>Role / Service</h4>
+                            <p>{project.category}</p>
+                        </div>
+                    </motion.aside>
                 </div>
             </div>
         </article>

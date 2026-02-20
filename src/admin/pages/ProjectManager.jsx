@@ -1,5 +1,5 @@
 import { useState, useEffect } from 'react';
-import { Plus, Trash2, Image as ImageIcon, Loader2 } from 'lucide-react';
+import { Plus, Trash2, Image as ImageIcon, Loader2, Edit } from 'lucide-react';
 import api from '../../api/config';
 import '../../components/Contact.css'; // Re-use form styles
 
@@ -13,9 +13,14 @@ const ProjectManager = () => {
         title: '',
         category: 'Branding',
         description: '',
+        aboutProject: '',
+        date: '',
+        client: ''
     });
     const [imageFile, setImageFile] = useState(null);
+    const [brandingImagesFiles, setBrandingImagesFiles] = useState([]);
     const [submitLoading, setSubmitLoading] = useState(false);
+    const [editingId, setEditingId] = useState(null);
 
     useEffect(() => {
         fetchProjects();
@@ -50,24 +55,60 @@ const ProjectManager = () => {
         data.append('title', formData.title);
         data.append('category', formData.category);
         data.append('description', formData.description);
+        data.append('aboutProject', formData.aboutProject);
+        data.append('date', formData.date);
+        data.append('client', formData.client);
+
         if (imageFile) {
             data.append('image', imageFile);
         }
 
-        try {
-            const res = await api.post('/gallery', data, {
-                headers: { 'Content-Type': 'multipart/form-data' }
+        if (brandingImagesFiles && brandingImagesFiles.length > 0) {
+            Array.from(brandingImagesFiles).forEach(file => {
+                data.append('brandingImages', file);
             });
-            setProjects([res.data.data, ...projects]);
+        }
+
+        try {
+            if (editingId) {
+                const res = await api.put(`/gallery/${editingId}`, data, {
+                    headers: { 'Content-Type': 'multipart/form-data' }
+                });
+                setProjects(projects.map(p => p._id === editingId ? res.data.data : p));
+            } else {
+                const res = await api.post('/gallery', data, {
+                    headers: { 'Content-Type': 'multipart/form-data' }
+                });
+                setProjects([res.data.data, ...projects]);
+            }
+
             setIsAdding(false);
-            setFormData({ title: '', category: 'Branding', description: '' });
+            setEditingId(null);
+            setFormData({ title: '', category: 'Branding', description: '', aboutProject: '', date: '', client: '' });
             setImageFile(null);
+            setBrandingImagesFiles([]);
         } catch (error) {
-            console.error('Failed to create project', error);
-            alert('Failed to create project');
+            console.error('Failed to save project', error);
+            alert('Failed to save project');
         } finally {
             setSubmitLoading(false);
         }
+    };
+
+    const handleEdit = (p) => {
+        setFormData({
+            title: p.title || '',
+            category: p.category || 'Branding',
+            description: p.description || '',
+            aboutProject: p.aboutProject || '',
+            date: p.date || '',
+            client: p.client || ''
+        });
+        setEditingId(p._id);
+        setIsAdding(true);
+        setImageFile(null);
+        setBrandingImagesFiles([]);
+        window.scrollTo({ top: 0, behavior: 'smooth' });
     };
 
     if (loading) return <div style={{ color: '#fff' }}><Loader2 className="animate-spin" /> Loading projects...</div>;
@@ -77,7 +118,15 @@ const ProjectManager = () => {
             <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', marginBottom: '30px' }}>
                 <h2 style={{ color: '#fff', fontFamily: 'Oswald', margin: 0 }}>Projects</h2>
                 <button
-                    onClick={() => setIsAdding(!isAdding)}
+                    onClick={() => {
+                        if (isAdding) {
+                            setIsAdding(false);
+                            setEditingId(null);
+                            setFormData({ title: '', category: 'Branding', description: '', aboutProject: '', date: '', client: '' });
+                        } else {
+                            setIsAdding(true);
+                        }
+                    }}
                     className="submit-btn"
                     style={{ width: 'auto', padding: '10px 20px', margin: 0 }}
                 >
@@ -87,7 +136,7 @@ const ProjectManager = () => {
 
             {isAdding && (
                 <div style={{ background: '#151f19', padding: '25px', borderRadius: '8px', marginBottom: '30px', border: '1px solid rgba(255,255,255,0.1)' }}>
-                    <h3 style={{ color: '#fff', marginBottom: '20px' }}>New Project</h3>
+                    <h3 style={{ color: '#fff', marginBottom: '20px' }}>{editingId ? 'Edit Project' : 'New Project'}</h3>
                     <form onSubmit={handleSubmit} className="contact-form">
                         <div className="form-group">
                             <input
@@ -112,8 +161,24 @@ const ProjectManager = () => {
                             </select>
                         </div>
                         <div className="form-group">
+                            <input
+                                type="text"
+                                placeholder="Client Name"
+                                value={formData.client}
+                                onChange={e => setFormData({ ...formData, client: e.target.value })}
+                            />
+                        </div>
+                        <div className="form-group">
+                            <input
+                                type="text"
+                                placeholder="Project Date (e.g. October 2023)"
+                                value={formData.date}
+                                onChange={e => setFormData({ ...formData, date: e.target.value })}
+                            />
+                        </div>
+                        <div className="form-group">
                             <textarea
-                                placeholder="Description"
+                                placeholder="Short Description"
                                 rows="3"
                                 value={formData.description}
                                 onChange={e => setFormData({ ...formData, description: e.target.value })}
@@ -121,17 +186,37 @@ const ProjectManager = () => {
                             ></textarea>
                         </div>
                         <div className="form-group">
-                            <label style={{ display: 'block', color: 'rgba(255,255,255,0.7)', marginBottom: '10px' }}>Project Image</label>
+                            <textarea
+                                placeholder="About the Project (Detailed)"
+                                rows="5"
+                                value={formData.aboutProject}
+                                onChange={e => setFormData({ ...formData, aboutProject: e.target.value })}
+                            ></textarea>
+                        </div>
+                        <div className="form-group">
+                            <label style={{ display: 'block', color: 'rgba(255,255,255,0.7)', marginBottom: '10px' }}>
+                                Cover Image (Thumbnail) {editingId && <span style={{ fontSize: '0.8rem', color: '#888' }}>(Leave blank to keep existing)</span>}
+                            </label>
                             <input
                                 type="file"
                                 accept="image/*"
                                 onChange={e => setImageFile(e.target.files[0])}
-                                required
+                                required={!editingId}
+                                style={{ color: '#fff' }}
+                            />
+                        </div>
+                        <div className="form-group">
+                            <label style={{ display: 'block', color: 'rgba(255,255,255,0.7)', marginBottom: '10px' }}>Branding Images (Multiple)</label>
+                            <input
+                                type="file"
+                                accept="image/*"
+                                multiple
+                                onChange={e => setBrandingImagesFiles(e.target.files)}
                                 style={{ color: '#fff' }}
                             />
                         </div>
                         <button type="submit" className="submit-btn" disabled={submitLoading}>
-                            {submitLoading ? <Loader2 className="animate-spin" /> : 'Create Project'}
+                            {submitLoading ? <Loader2 className="animate-spin" /> : (editingId ? 'Update Project' : 'Create Project')}
                         </button>
                     </form>
                 </div>
@@ -152,12 +237,20 @@ const ProjectManager = () => {
                                     <h4 style={{ color: '#fff', margin: '0 0 5px 0' }}>{p.title}</h4>
                                     <span style={{ color: 'var(--accent-color)', fontSize: '0.8rem' }}>{p.category}</span>
                                 </div>
-                                <button
-                                    onClick={() => handleDelete(p._id)}
-                                    style={{ background: 'transparent', border: 'none', color: '#ff4d4d', cursor: 'pointer' }}
-                                >
-                                    <Trash2 size={18} />
-                                </button>
+                                <div style={{ display: 'flex', gap: '10px' }}>
+                                    <button
+                                        onClick={() => handleEdit(p)}
+                                        style={{ background: 'transparent', border: 'none', color: '#fff', cursor: 'pointer', opacity: 0.7 }}
+                                    >
+                                        <Edit size={18} />
+                                    </button>
+                                    <button
+                                        onClick={() => handleDelete(p._id)}
+                                        style={{ background: 'transparent', border: 'none', color: '#ff4d4d', cursor: 'pointer' }}
+                                    >
+                                        <Trash2 size={18} />
+                                    </button>
+                                </div>
                             </div>
                         </div>
                     </div>

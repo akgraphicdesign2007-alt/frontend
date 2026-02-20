@@ -16,6 +16,8 @@ import ScrollToTopButton from './components/ScrollToTopButton';
 
 // Admin Imports
 import Login from './admin/Login';
+import ForgotPassword from './admin/ForgotPassword';
+import ResetPassword from './admin/ResetPassword';
 import AdminLayout from './layouts/AdminLayout';
 import ProtectedRoute from './components/ProtectedRoute';
 import Dashboard from './admin/pages/Dashboard';
@@ -25,6 +27,7 @@ import ProjectManager from './admin/pages/ProjectManager';
 import BlogManager from './admin/pages/BlogManager';
 import AboutManager from './admin/pages/AboutManager';
 import UserManager from './admin/pages/UserManager';
+import SettingsManager from './admin/pages/SettingsManager';
 
 function App() {
   return (
@@ -44,6 +47,8 @@ function App() {
 
           {/* Admin Routes */}
           <Route path="/admin/login" element={<Login />} />
+          <Route path="/admin/forgot-password" element={<ForgotPassword />} />
+          <Route path="/admin/reset-password" element={<ResetPassword />} />
 
           <Route element={<ProtectedRoute />}>
             <Route path="/admin" element={<AdminLayout />}>
@@ -52,6 +57,7 @@ function App() {
               <Route path="about" element={<AboutManager />} />
               <Route path="blog" element={<BlogManager />} />
               <Route path="users" element={<UserManager />} />
+              <Route path="settings" element={<SettingsManager />} />
               <Route path="inbox" element={<Inbox />} />
               <Route path="testimonials" element={<TestimonialManager />} />
             </Route>
