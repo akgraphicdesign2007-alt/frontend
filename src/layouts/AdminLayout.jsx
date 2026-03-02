@@ -1,6 +1,6 @@
 import { useState } from 'react';
 import { useNavigate, Link, useLocation } from 'react-router-dom';
-import { LayoutDashboard, User, Image, FileText, Users, Settings, MessageSquare, Quote, Globe, LogOut, Menu, X } from 'lucide-react';
+import { LayoutDashboard, User, Image, FileText, Users, Settings, MessageSquare, Quote, Globe, LogOut, Menu, X, Cloud } from 'lucide-react';
 import { useAuth } from '../context/AuthContext';
 import './AdminLayout.css';
 
@@ -20,6 +20,7 @@ const AdminLayout = ({ children }) => {
         { name: 'Site Settings', path: '/admin/settings', icon: <Settings size={20} /> },
         { name: 'Inbox', path: '/admin/inbox', icon: <MessageSquare size={20} /> },
         { name: 'Testimonials', path: '/admin/testimonials', icon: <Quote size={20} /> },
+        { name: 'Cloud Storage', path: '/admin/media', icon: <Cloud size={20} /> },
     ];
 
     const handleLogout = () => {

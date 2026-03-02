@@ -29,6 +29,7 @@ import BlogManager from './pages/admin/BlogManager';
 import TestimonialManager from './pages/admin/TestimonialManager';
 import Dashboard from './pages/admin/Dashboard';
 import AcceptInvite from './pages/admin/AcceptInvite';
+import MediaManager from './pages/admin/MediaManager';
 
 function App() {
   return (
@@ -60,6 +61,7 @@ function App() {
             <Route path="/admin/inbox" element={<AdminLayout><Inbox /></AdminLayout>} />
             <Route path="/admin/settings" element={<AdminLayout><SettingsManager /></AdminLayout>} />
             <Route path="/admin/testimonials" element={<AdminLayout><TestimonialManager /></AdminLayout>} />
+            <Route path="/admin/media" element={<AdminLayout><MediaManager /></AdminLayout>} />
           </Route>
         </Routes>
       </Router>
