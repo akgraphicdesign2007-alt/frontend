@@ -1,4 +1,5 @@
 import { BrowserRouter as Router, Routes, Route } from 'react-router-dom';
+import { SpeedInsights } from '@vercel/speed-insights/react';
 import { AuthProvider } from './context/AuthContext';
 import Navbar from './components/Navbar';
 import Footer from './components/Footer';
@@ -64,6 +65,7 @@ function App() {
             <Route path="/admin/media" element={<AdminLayout><MediaManager /></AdminLayout>} />
           </Route>
         </Routes>
+        <SpeedInsights />
       </Router>
     </AuthProvider>
   );
