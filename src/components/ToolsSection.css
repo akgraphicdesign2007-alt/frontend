@@ -1,60 +1,34 @@
 .tools-section {
-    padding: 80px 0;
-    background: linear-gradient(180deg, var(--bg-color) 0%, rgba(5, 10, 7, 0.95) 100%);
+    padding: 120px 0;
+    background-color: #050a07;
+    position: relative;
     overflow: hidden;
 }
 
 .tools-header {
     text-align: center;
-    margin-bottom: 60px;
-}
-
-.tools-header .section-title {
-    font-size: 1rem;
-    color: var(--accent-color);
-    margin-bottom: var(--spacing-md);
-    letter-spacing: 0.2em;
-    text-transform: uppercase;
+    margin-bottom: 80px;
 }
 
 .tools-subtitle {
-    font-family: var(--font-headline);
-    font-size: 2rem;
-    color: var(--text-primary);
-    margin: 0;
+    font-family: 'Oswald', sans-serif;
+    font-size: 3.5rem;
+    color: #fff;
+    text-transform: uppercase;
+    line-height: 1;
+    margin-top: 10px;
 }
 
 .tools-scroll-container {
     position: relative;
     width: 100%;
     overflow: hidden;
-    padding: 20px 0;
-}
-
-.tools-scroll-container::before,
-.tools-scroll-container::after {
-    content: '';
-    position: absolute;
-    top: 0;
-    width: 150px;
-    height: 100%;
-    z-index: 2;
-    pointer-events: none;
-}
-
-.tools-scroll-container::before {
-    left: 0;
-    background: linear-gradient(90deg, var(--bg-color) 0%, transparent 100%);
-}
-
-.tools-scroll-container::after {
-    right: 0;
-    background: linear-gradient(270deg, var(--bg-color) 0%, transparent 100%);
+    padding: 40px 0;
 }
 
 .tools-track {
     display: flex;
-    gap: 30px;
+    gap: 40px;
     width: fit-content;
 }
 
@@ -62,67 +36,50 @@
     display: flex;
     flex-direction: column;
     align-items: center;
-    gap: 15px;
-    min-width: 140px;
-    padding: 20px;
-    background: var(--card-bg);
-    border-radius: var(--radius-md);
-    transition: transform 0.3s ease, box-shadow 0.3s ease;
+    gap: 20px;
+    min-width: 180px;
+    padding: 40px;
+    background: rgba(255, 255, 255, 0.02);
+    border: 1px solid rgba(255, 255, 255, 0.05);
+    border-radius: 30px;
+    transition: all 0.4s cubic-bezier(0.19, 1, 0.22, 1);
 }
 
 .tool-card:hover {
-    transform: translateY(-5px);
-    box-shadow: 0 10px 30px rgba(230, 234, 26, 0.15);
+    background: rgba(255, 255, 255, 0.04);
+    border-color: rgba(251, 191, 36, 0.2);
+    transform: translateY(-10px);
 }
 
 .tool-icon {
-    width: 70px;
-    height: 70px;
-    border-radius: 12px;
+    width: 80px;
+    height: 80px;
+    border-radius: 20px;
     display: flex;
     align-items: center;
     justify-content: center;
-    font-family: var(--font-headline);
-    font-size: 1.8rem;
-    font-weight: 700;
-    transition: transform 0.3s ease;
+    transition: transform 0.5s ease;
 }
 
 .tool-card:hover .tool-icon {
-    transform: scale(1.1);
+    transform: scale(1.1) rotate(5deg);
 }
 
 .tool-name {
+    font-family: 'Oswald', sans-serif;
     font-size: 0.9rem;
-    color: var(--text-secondary);
-    text-align: center;
-    margin: 0;
-    font-weight: 500;
+    color: rgba(255, 255, 255, 0.4);
+    text-transform: uppercase;
+    letter-spacing: 2px;
 }
 
-/* Responsive */
 @media (max-width: 768px) {
     .tools-subtitle {
-        font-size: 1.5rem;
+        font-size: 2.5rem;
     }
 
     .tool-card {
-        min-width: 120px;
-        padding: 15px;
-    }
-
-    .tool-icon {
-        width: 60px;
-        height: 60px;
-        font-size: 1.5rem;
-    }
-
-    .tool-name {
-        font-size: 0.85rem;
-    }
-
-    .tools-scroll-container::before,
-    .tools-scroll-container::after {
-        width: 50px;
+        min-width: 140px;
+        padding: 30px;
     }
 }

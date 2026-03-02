@@ -8,10 +8,8 @@ export const AuthProvider = ({ children }) => {
     const [loading, setLoading] = useState(true);
 
     useEffect(() => {
-        // Check for token in localStorage
         const token = localStorage.getItem('token');
         if (token) {
-            // Set default header
             api.defaults.headers.common['Authorization'] = `Bearer ${token}`;
             fetchUser();
         } else {
@@ -41,10 +39,16 @@ export const AuthProvider = ({ children }) => {
         return user;
     };
 
-    const logout = () => {
-        localStorage.removeItem('token');
-        delete api.defaults.headers.common['Authorization'];
-        setUser(null);
+    const logout = async () => {
+        try {
+            await api.post('/auth/logout');
+        } catch (error) {
+            console.error('Logout error', error);
+        } finally {
+            localStorage.removeItem('token');
+            delete api.defaults.headers.common['Authorization'];
+            setUser(null);
+        }
     };
 
     return (

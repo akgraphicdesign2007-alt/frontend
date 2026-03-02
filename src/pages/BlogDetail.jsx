@@ -1,6 +1,7 @@
 import { useState, useEffect } from 'react';
 import { useParams, Link } from 'react-router-dom';
 import { ArrowLeft, Clock, Calendar, Loader2 } from 'lucide-react';
+import { motion } from 'framer-motion';
 import api from '../api/config';
 import './BlogDetail.css';
 
@@ -45,36 +46,49 @@ const BlogDetail = () => {
         );
     }
 
+    const bgStyle = post.imageUrl?.startsWith('http') ? `url(${post.imageUrl})` : `url(${post.imageUrl})` || 'none';
+
     return (
         <article className="blog-detail-page">
-            <div className="blog-hero" style={{ background: post.image?.startsWith('http') ? `url(${post.image}) center/cover` : post.image || '#222' }}>
-                <div className="blog-hero-overlay"></div>
-                <div className="container blog-hero-content">
-                    <Link to="/blog" className="blog-back-link">
-                        <ArrowLeft size={16} /> Back to Blog
-                    </Link>
-                    <h1>{post.title}</h1>
-                    <div className="blog-meta">
-                        <span><Calendar size={14} /> {post.createdAt ? new Date(post.createdAt).toLocaleDateString() : 'Date'}</span>
-                        <span><Clock size={14} /> {post.readTime || '5 min read'}</span>
-                    </div>
+            <header className="blog-hero-premium">
+                <div className="blog-hero-image" style={{ backgroundImage: bgStyle }}></div>
+                <div className="blog-hero-content">
+                    <motion.div
+                        initial={{ opacity: 0, scale: 0.95 }}
+                        animate={{ opacity: 1, scale: 1 }}
+                        transition={{ duration: 1.2, ease: [0.16, 1, 0.3, 1] }}
+                    >
+                        <span className="blog-pub-tag">Latest Publication</span>
+                        <h1 className="blog-title-huge">{post.title}</h1>
+                        <div className="blog-meta-premium">
+                            <span><Calendar size={14} /> {post.createdAt ? new Date(post.createdAt).toLocaleDateString('en-US', { month: 'long', day: 'numeric', year: 'numeric' }) : 'Recent'}</span>
+                            <span><Clock size={14} /> {post.readTime || '5 Minute Read'}</span>
+                        </div>
+                    </motion.div>
                 </div>
-            </div>
+            </header>
 
-            <div className="container blog-body">
-                {/* 
-                  Assuming content is plain text or HTML. 
-                  If HTML, use dangerouslySetInnerHTML safely (sanitize in prod). 
-                  For now, displaying as text or mapping logic if needed.
-                */}
-                <div className="post-content">
+            <motion.div
+                className="blog-body-premium"
+                initial={{ opacity: 0, y: 50 }}
+                whileInView={{ opacity: 1, y: 0 }}
+                transition={{ duration: 1 }}
+                viewport={{ once: true }}
+            >
+                <div className="blog-content-rich">
                     {post.content ? (
                         <div dangerouslySetInnerHTML={{ __html: post.content }} />
                     ) : (
-                        <p>No content available.</p>
+                        <p>No textual data provided for this publication.</p>
                     )}
                 </div>
-            </div>
+
+                <div style={{ marginTop: '100px', textAlign: 'center' }}>
+                    <Link to="/blog" className="btn-main btn-outline-white">
+                        <ArrowLeft size={18} /> BACK TO PUBLICATIONS
+                    </Link>
+                </div>
+            </motion.div>
         </article>
     );
 };

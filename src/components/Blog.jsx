@@ -5,7 +5,7 @@ import { Link } from 'react-router-dom';
 import api from '../api/config';
 import './Blog.css';
 
-const Blog = () => {
+const Blog = ({ limit = 0 }) => {
     const [posts, setPosts] = useState([]);
     const [loading, setLoading] = useState(true);
     const [error, setError] = useState(null);
@@ -14,10 +14,9 @@ const Blog = () => {
         const fetchPosts = async () => {
             try {
                 const res = await api.get('/blog');
-                // Assuming API returns { data: [...] } or just [...]
-                // Limit to 3 recent posts for the home section
                 const allPosts = res.data.data || res.data;
-                setPosts(allPosts.slice(0, 3));
+                // If limit is passed (e.g. 3 for Homepage), slice it. Otherwise show all.
+                setPosts(limit > 0 ? allPosts.slice(0, limit) : allPosts);
                 setLoading(false);
             } catch (err) {
                 console.error(err);
@@ -42,31 +41,34 @@ const Blog = () => {
     return (
         <section id="blog" className="blog-section">
             <div className="container">
-                <h2 className="section-title">Latest Insights</h2>
+                <h2 className="section-title">Latest Publication</h2>
 
                 <div className="blog-grid">
                     {posts.map((post, index) => (
                         <motion.div
-                            initial={{ opacity: 0, y: 20 }}
+                            initial={{ opacity: 0, y: 30 }}
                             whileInView={{ opacity: 1, y: 0 }}
                             viewport={{ once: true }}
-                            transition={{ delay: index * 0.1, duration: 0.6 }}
+                            transition={{ delay: index * 0.1, duration: 0.8, ease: [0.16, 1, 0.3, 1] }}
                             key={post._id || index}
                         >
-                            <article className="blog-card">
-                                <div
-                                    className="blog-image"
-                                    style={{ background: post.image?.startsWith('http') ? `url(${post.image}) center/cover` : post.image || '#222' }}
-                                ></div>
-                                <div className="blog-content">
-                                    <span className="blog-date">
-                                        <Calendar size={14} style={{ marginRight: '5px', verticalAlign: 'text-bottom' }} />
-                                        {post.createdAt ? new Date(post.createdAt).toLocaleDateString() : 'Recent'}
-                                    </span>
-                                    <h3 className="blog-title">{post.title}</h3>
-                                    <p className="blog-excerpt">{post.excerpt}</p>
-                                    <Link to={`/blog/${post.slug || post.title.toLowerCase().replace(/[^\w\s-]/g, '').replace(/\s+/g, '-')}`} className="read-more">
-                                        Read Article <ArrowRight size={16} />
+                            <article className="blog-card-premium">
+                                <div className="blog-image-wrapper">
+                                    <div
+                                        className="blog-image-premium"
+                                        style={{ backgroundImage: post.imageUrl?.startsWith('http') ? `url(${post.imageUrl})` : `url(${post.imageUrl})` || 'none' }}
+                                    ></div>
+                                </div>
+                                <div className="blog-card-content">
+                                    <div className="blog-meta-premium">
+                                        <span className="blog-date-premium">
+                                            {post.createdAt ? new Date(post.createdAt).toLocaleDateString('en-US', { month: 'short', day: 'numeric', year: 'numeric' }) : 'Recent Publication'}
+                                        </span>
+                                    </div>
+                                    <h3 className="blog-title-premium">{post.title}</h3>
+                                    <p className="blog-excerpt-premium">{post.excerpt}</p>
+                                    <Link to={`/blog/${post.slug || post.title.toLowerCase().replace(/[^\w\s-]/g, '').replace(/\s+/g, '-')}`} className="read-article-link">
+                                        Exploration <ArrowRight size={16} />
                                     </Link>
                                 </div>
                             </article>

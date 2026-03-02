@@ -1,93 +1,226 @@
 .review-btn-container {
     position: fixed;
-    right: 0;
-    top: 50%;
-    transform: translateY(-50%);
+    right: 30px;
+    bottom: 100px;
+    /* Above Scroll button */
     z-index: 999;
 }
 
 .review-trigger-btn {
-    background: #E6EA1A;
-    color: #050a07;
+    background: var(--primary);
+    color: #000;
+    padding: 12px 24px;
+    border-radius: 50px;
     border: none;
-    padding: 15px 10px;
-    border-top-left-radius: 8px;
-    border-bottom-left-radius: 8px;
-    cursor: pointer;
     font-family: 'Oswald', sans-serif;
-    font-weight: 600;
+    font-size: 0.75rem;
+    font-weight: 700;
     text-transform: uppercase;
     letter-spacing: 1px;
-    writing-mode: vertical-rl;
-    text-orientation: mixed;
-    box-shadow: -4px 0 15px rgba(230, 234, 26, 0.3);
-    transition: all 0.3s ease;
+    cursor: pointer;
+    box-shadow: 0 10px 20px rgba(0, 0, 0, 0.3);
     display: flex;
     align-items: center;
     gap: 10px;
+    transition: all 0.3s cubic-bezier(0.175, 0.885, 0.32, 1.275);
 }
 
 .review-trigger-btn:hover {
-    padding-right: 15px;
-    /* Slide out effect */
-    background: #fff;
+    transform: scale(1.05) translateX(-5px);
+    box-shadow: 0 15px 30px var(--primary-glow);
 }
 
 .review-modal-overlay {
     position: fixed;
-    top: 0;
-    left: 0;
-    width: 100%;
-    height: 100%;
+    inset: 0;
     background: rgba(0, 0, 0, 0.8);
-    backdrop-filter: blur(5px);
-    z-index: 1000;
+    backdrop-filter: blur(10px);
     display: flex;
     align-items: center;
     justify-content: center;
+    z-index: 2000;
     padding: 20px;
 }
 
 .review-modal {
-    background: #151f19;
-    border: 1px solid rgba(255, 255, 255, 0.1);
-    border-radius: 12px;
+    background: #0a0f16;
+    max-width: 650px;
     width: 100%;
-    max-width: 500px;
-    padding: 30px;
+    padding: 60px 50px;
+    border-radius: 30px;
+    border: 1px solid rgba(255, 255, 255, 0.08);
     position: relative;
-    box-shadow: 0 25px 50px -12px rgba(0, 0, 0, 0.5);
+    box-shadow: 0 40px 100px rgba(0, 0, 0, 0.7);
+    position: relative;
+    overflow: hidden;
+}
+
+.review-modal::before {
+    content: '';
+    position: absolute;
+    top: -50%;
+    left: -50%;
+    width: 200%;
+    height: 200%;
+    background: radial-gradient(circle, rgba(251, 191, 36, 0.05) 0%, transparent 60%);
+    pointer-events: none;
+    z-index: 0;
 }
 
 .close-modal-btn {
     position: absolute;
-    top: 15px;
-    right: 15px;
-    background: transparent;
-    border: none;
-    color: rgba(255, 255, 255, 0.5);
+    top: 25px;
+    right: 25px;
+    background: rgba(255, 255, 255, 0.05);
+    border: 1px solid rgba(255, 255, 255, 0.1);
+    width: 45px;
+    height: 45px;
+    border-radius: 50%;
+    color: rgba(255, 255, 255, 0.6);
     cursor: pointer;
-    padding: 5px;
-    transition: color 0.3s;
+    transition: all 0.3s;
+    z-index: 10;
+    display: flex;
+    align-items: center;
+    justify-content: center;
 }
 
 .close-modal-btn:hover {
-    color: #fff;
+    background: rgba(239, 68, 68, 0.1);
+    color: #ef4444;
+    border-color: rgba(239, 68, 68, 0.2);
+    transform: rotate(90deg);
 }
 
 .success-message {
     text-align: center;
-    padding: 20px;
+    padding: 40px 0;
+    position: relative;
+    z-index: 1;
 }
 
 .success-icon {
-    width: 60px;
-    height: 60px;
-    background: rgba(81, 207, 102, 0.2);
-    color: #51cf66;
+    width: 80px;
+    height: 80px;
+    background: rgba(230, 234, 26, 0.1);
     border-radius: 50%;
     display: flex;
     align-items: center;
     justify-content: center;
-    margin: 0 auto 20px auto;
+    color: var(--primary);
+    margin: 0 auto 30px;
+}
+
+/* Premium Form Styles */
+.review-header-text {
+    position: relative;
+    z-index: 1;
+    margin-bottom: 35px;
+    text-align: center;
+}
+
+.review-header-text h2 {
+    font-family: 'Oswald', sans-serif;
+    font-size: 2.2rem;
+    color: #fff;
+    margin-bottom: 10px;
+    letter-spacing: 1px;
+}
+
+.review-header-text p {
+    color: var(--text-muted);
+    font-size: 0.95rem;
+    margin: 0;
+}
+
+.modern-review-form {
+    position: relative;
+    z-index: 1;
+    display: flex;
+    flex-direction: column;
+    gap: 20px;
+}
+
+.input-field label {
+    display: block;
+    font-size: 0.8rem;
+    font-weight: 700;
+    color: rgba(255, 255, 255, 0.4);
+    margin-bottom: 8px;
+    text-transform: uppercase;
+    letter-spacing: 1px;
+}
+
+.input-inner-box {
+    display: flex;
+    align-items: center;
+    gap: 12px;
+    background: rgba(0, 0, 0, 0.3);
+    border: 1px solid rgba(255, 255, 255, 0.08);
+    border-radius: 14px;
+    padding: 0 16px;
+    transition: all 0.3s ease;
+}
+
+.input-inner-box:focus-within {
+    border-color: var(--primary);
+    background: rgba(251, 191, 36, 0.03);
+    box-shadow: 0 0 0 4px rgba(251, 191, 36, 0.05);
+}
+
+.input-inner-box svg {
+    color: rgba(255, 255, 255, 0.3);
+}
+
+.input-inner-box:focus-within svg {
+    color: var(--primary);
+}
+
+.input-inner-box input,
+.input-inner-box textarea {
+    background: transparent;
+    border: none;
+    padding: 16px 0;
+    color: #fff;
+    width: 100%;
+    outline: none;
+    font-size: 0.95rem;
+    font-family: 'Outfit', sans-serif;
+}
+
+.textarea-box {
+    align-items: flex-start;
+    padding-top: 16px;
+    border-radius: 18px;
+}
+
+.textarea-box textarea {
+    padding: 0;
+    resize: none;
+}
+
+.form-row-grid {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 20px;
+}
+
+.full-btn-glow {
+    width: 100%;
+    justify-content: center;
+    padding: 18px;
+    border-radius: 14px;
+    font-size: 0.95rem;
+    letter-spacing: 2px;
+    box-shadow: 0 10px 20px rgba(251, 191, 36, 0.15);
+}
+
+@media (max-width: 768px) {
+    .review-modal {
+        padding: 40px 25px;
+    }
+
+    .form-row-grid {
+        grid-template-columns: 1fr;
+    }
 }

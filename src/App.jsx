@@ -9,25 +9,26 @@ import BlogPage from './pages/BlogPage';
 import ContactPage from './pages/ContactPage';
 import ProjectDetail from './pages/ProjectDetail';
 import BlogDetail from './pages/BlogDetail';
-import Setup from './pages/Setup';
 import ReviewButton from './components/ReviewButton';
 import ScrollToTop from './components/ScrollToTop';
 import ScrollToTopButton from './components/ScrollToTopButton';
+import NotFound from './pages/NotFound';
 
-// Admin Imports
-import Login from './admin/Login';
-import ForgotPassword from './admin/ForgotPassword';
-import ResetPassword from './admin/ResetPassword';
-import AdminLayout from './layouts/AdminLayout';
+// Admin Panel Components
 import ProtectedRoute from './components/ProtectedRoute';
-import Dashboard from './admin/pages/Dashboard';
-import Inbox from './admin/pages/Inbox';
-import TestimonialManager from './admin/pages/TestimonialManager';
-import ProjectManager from './admin/pages/ProjectManager';
-import BlogManager from './admin/pages/BlogManager';
-import AboutManager from './admin/pages/AboutManager';
-import UserManager from './admin/pages/UserManager';
-import SettingsManager from './admin/pages/SettingsManager';
+import AdminLayout from './layouts/AdminLayout';
+import Login from './pages/admin/Login';
+import ForgotPassword from './pages/admin/ForgotPassword';
+import ProjectManager from './pages/admin/ProjectManager';
+import UserManager from './pages/admin/UserManager';
+import Inbox from './pages/admin/Inbox';
+import SettingsManager from './pages/admin/SettingsManager';
+import HeroManager from './pages/admin/HeroManager';
+import AboutManager from './pages/admin/AboutManager';
+import BlogManager from './pages/admin/BlogManager';
+import TestimonialManager from './pages/admin/TestimonialManager';
+import Dashboard from './pages/admin/Dashboard';
+import AcceptInvite from './pages/admin/AcceptInvite';
 
 function App() {
   return (
@@ -43,26 +44,23 @@ function App() {
           <Route path="/blog" element={<><Navbar /><BlogPage /><ScrollToTopButton /><Footer /></>} />
           <Route path="/blog/:slug" element={<><Navbar /><BlogDetail /><ScrollToTopButton /><Footer /></>} />
           <Route path="/contact" element={<><Navbar /><ContactPage /><ScrollToTopButton /><Footer /></>} />
-          <Route path="/setup" element={<Setup />} />
+          <Route path="*" element={<NotFound />} />
 
-          {/* Admin Routes */}
+          {/* Admin Panel Routes */}
           <Route path="/admin/login" element={<Login />} />
           <Route path="/admin/forgot-password" element={<ForgotPassword />} />
-          <Route path="/admin/reset-password" element={<ResetPassword />} />
-
+          <Route path="/admin/accept-invite/:token" element={<AcceptInvite />} />
           <Route element={<ProtectedRoute />}>
-            <Route path="/admin" element={<AdminLayout />}>
-              <Route index element={<Dashboard />} />
-              <Route path="projects" element={<ProjectManager />} />
-              <Route path="about" element={<AboutManager />} />
-              <Route path="blog" element={<BlogManager />} />
-              <Route path="users" element={<UserManager />} />
-              <Route path="settings" element={<SettingsManager />} />
-              <Route path="inbox" element={<Inbox />} />
-              <Route path="testimonials" element={<TestimonialManager />} />
-            </Route>
+            <Route path="/admin" element={<AdminLayout><Dashboard /></AdminLayout>} />
+            <Route path="/admin/hero" element={<AdminLayout><HeroManager /></AdminLayout>} />
+            <Route path="/admin/about" element={<AdminLayout><AboutManager /></AdminLayout>} />
+            <Route path="/admin/projects" element={<AdminLayout><ProjectManager /></AdminLayout>} />
+            <Route path="/admin/blog" element={<AdminLayout><BlogManager /></AdminLayout>} />
+            <Route path="/admin/users" element={<AdminLayout><UserManager /></AdminLayout>} />
+            <Route path="/admin/inbox" element={<AdminLayout><Inbox /></AdminLayout>} />
+            <Route path="/admin/settings" element={<AdminLayout><SettingsManager /></AdminLayout>} />
+            <Route path="/admin/testimonials" element={<AdminLayout><TestimonialManager /></AdminLayout>} />
           </Route>
-
         </Routes>
       </Router>
     </AuthProvider>

@@ -1,6 +1,6 @@
 import { useState } from 'react';
 import { motion, AnimatePresence } from 'framer-motion';
-import { MessageSquarePlus, X, Check, Loader2, Star } from 'lucide-react';
+import { MessageSquarePlus, X, Check, Loader2, Star, User, Building, Briefcase, MessageSquare } from 'lucide-react';
 import api from '../api/config';
 import './ReviewButton.css';
 import './Contact.css'; // Re-use input styles
@@ -20,7 +20,16 @@ const ReviewButton = () => {
         e.preventDefault();
         setLoading(true);
         try {
-            await api.post('/testimonials', formData);
+            // Map fields to match backend schema: 'message' -> 'content'
+            // Role + Company -> 'role' (since model has one role field)
+            const submissionData = {
+                name: formData.name,
+                role: formData.company ? `${formData.role} at ${formData.company}` : formData.role,
+                content: formData.message,
+                approved: false // Explicitly set to false (moderation)
+            };
+
+            await api.post('/testimonial', submissionData);
             setSuccess(true);
             setFormData({ name: '', company: '', role: '', message: '' });
             setTimeout(() => {
@@ -75,45 +84,70 @@ const ReviewButton = () => {
                                 </div>
                             ) : (
                                 <>
-                                    <h2 style={{ color: '#fff', fontFamily: 'Oswald', marginBottom: '5px' }}>Leave a Review</h2>
-                                    <p style={{ color: 'rgba(255,255,255,0.6)', marginBottom: '25px', fontSize: '0.9rem' }}>Share your experience working with us.</p>
+                                    <div className="review-header-text">
+                                        <h2>Leave a Review</h2>
+                                        <p>Share your authentic experience working with our creative studio.</p>
+                                    </div>
 
-                                    <form onSubmit={handleSubmit} className="contact-form">
-                                        <div className="form-group">
-                                            <input
-                                                type="text"
-                                                placeholder="Your Name"
-                                                value={formData.name}
-                                                onChange={e => setFormData({ ...formData, name: e.target.value })}
-                                                required
-                                            />
+                                    <form onSubmit={handleSubmit} className="modern-review-form">
+                                        <div className="input-field">
+                                            <label>Full Name</label>
+                                            <div className="input-inner-box">
+                                                <User size={18} />
+                                                <input
+                                                    type="text"
+                                                    placeholder="e.g. Anand K"
+                                                    value={formData.name}
+                                                    onChange={e => setFormData({ ...formData, name: e.target.value })}
+                                                    required
+                                                />
+                                            </div>
                                         </div>
-                                        <div className="form-group" style={{ display: 'grid', gridTemplateColumns: '1fr 1fr', gap: '15px' }}>
-                                            <input
-                                                type="text"
-                                                placeholder="Company (Optional)"
-                                                value={formData.company}
-                                                onChange={e => setFormData({ ...formData, company: e.target.value })}
-                                            />
-                                            <input
-                                                type="text"
-                                                placeholder="Role"
-                                                value={formData.role}
-                                                onChange={e => setFormData({ ...formData, role: e.target.value })}
-                                                required
-                                            />
+
+                                        <div className="form-row-grid">
+                                            <div className="input-field">
+                                                <label>Company (Optional)</label>
+                                                <div className="input-inner-box">
+                                                    <Building size={18} />
+                                                    <input
+                                                        type="text"
+                                                        placeholder="e.g. AK Systems"
+                                                        value={formData.company}
+                                                        onChange={e => setFormData({ ...formData, company: e.target.value })}
+                                                    />
+                                                </div>
+                                            </div>
+                                            <div className="input-field">
+                                                <label>Role</label>
+                                                <div className="input-inner-box">
+                                                    <Briefcase size={18} />
+                                                    <input
+                                                        type="text"
+                                                        placeholder="e.g. Founder"
+                                                        value={formData.role}
+                                                        onChange={e => setFormData({ ...formData, role: e.target.value })}
+                                                        required
+                                                    />
+                                                </div>
+                                            </div>
                                         </div>
-                                        <div className="form-group">
-                                            <textarea
-                                                rows="4"
-                                                placeholder="Your Feedback..."
-                                                value={formData.message}
-                                                onChange={e => setFormData({ ...formData, message: e.target.value })}
-                                                required
-                                            ></textarea>
+
+                                        <div className="input-field">
+                                            <label>Your Feedback</label>
+                                            <div className="input-inner-box textarea-box">
+                                                <MessageSquare size={18} style={{ marginTop: '5px' }} />
+                                                <textarea
+                                                    rows="4"
+                                                    placeholder="Tell us about the project outcome and your experience..."
+                                                    value={formData.message}
+                                                    onChange={e => setFormData({ ...formData, message: e.target.value })}
+                                                    required
+                                                ></textarea>
+                                            </div>
                                         </div>
-                                        <button type="submit" className="submit-btn" disabled={loading}>
-                                            {loading ? <Loader2 className="animate-spin" /> : 'Submit Review'}
+
+                                        <button type="submit" className="btn-primary full-btn-glow" disabled={loading} style={{ marginTop: '10px' }}>
+                                            {loading ? <Loader2 className="animate-spin" /> : 'Submit Review For Approval'}
                                         </button>
                                     </form>
                                 </>

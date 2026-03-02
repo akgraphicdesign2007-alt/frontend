@@ -1,0 +1,100 @@
+.cta-section {
+    padding: 80px 0;
+    background-color: #050a07;
+}
+
+.cta-card {
+    background: linear-gradient(135deg, rgba(255, 255, 255, 0.05) 0%, rgba(251, 191, 36, 0.02) 100%);
+    border: 1px solid rgba(255, 255, 255, 0.1);
+    border-radius: 30px;
+    padding: 60px;
+    text-align: center;
+    position: relative;
+    overflow: hidden;
+}
+
+.cta-card::before {
+    content: '';
+    position: absolute;
+    top: -50%;
+    left: -50%;
+    width: 200%;
+    height: 200%;
+    background: radial-gradient(circle, rgba(251, 191, 36, 0.05) 0%, transparent 50%);
+    pointer-events: none;
+    z-index: 0;
+}
+
+.cta-badge {
+    position: relative;
+    z-index: 1;
+    font-family: 'Oswald', sans-serif;
+    font-size: 0.85rem;
+    color: var(--primary);
+    text-transform: uppercase;
+    letter-spacing: 3px;
+    margin-bottom: 20px;
+    display: inline-block;
+    background: rgba(251, 191, 36, 0.1);
+    padding: 8px 24px;
+    border-radius: 50px;
+}
+
+.cta-title {
+    position: relative;
+    z-index: 1;
+    font-family: 'Oswald', sans-serif;
+    font-size: 3rem;
+    color: #fff;
+    margin-bottom: 20px;
+    line-height: 1.2;
+    text-transform: uppercase;
+}
+
+.cta-desc {
+    position: relative;
+    z-index: 1;
+    font-size: 1.1rem;
+    color: rgba(255, 255, 255, 0.6);
+    line-height: 1.6;
+    max-width: 600px;
+    margin: 0 auto 40px;
+}
+
+.cta-button {
+    position: relative;
+    z-index: 1;
+    display: inline-flex;
+    align-items: center;
+    gap: 12px;
+    background: var(--primary);
+    color: #000;
+    padding: 16px 36px;
+    border-radius: 50px;
+    font-family: 'Oswald', sans-serif;
+    font-size: 1rem;
+    font-weight: 700;
+    text-transform: uppercase;
+    letter-spacing: 2px;
+    text-decoration: none;
+    transition: all 0.3s cubic-bezier(0.175, 0.885, 0.32, 1.275);
+}
+
+.cta-button:hover {
+    transform: translateY(-5px);
+    box-shadow: 0 15px 30px rgba(251, 191, 36, 0.3);
+}
+
+@media (max-width: 768px) {
+    .cta-card {
+        padding: 40px 20px;
+    }
+
+    .cta-title {
+        font-size: 2.2rem;
+    }
+
+    .cta-desc {
+        font-size: 1rem;
+    }
+}

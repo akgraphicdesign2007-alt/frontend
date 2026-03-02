@@ -73,110 +73,110 @@ const ProjectDetail = () => {
     }
 
     const bgImage = project.imageUrl?.startsWith('http') ? project.imageUrl : null;
-    const bgStyle = bgImage ? `url(${bgImage}) center/cover` : project.imageUrl || '#111';
+    const bgStyle = bgImage ? `url(${bgImage})` : `url(${project.imageUrl})` || 'none';
 
     return (
-        <article className="project-detail">
-            {/* HER0 - uses Framer Motion for Parallax background */}
-            <div className="project-hero" style={{ overflow: 'hidden' }}>
+        <article className="project-detail-page">
+            <section className="project-hero-premium">
                 <motion.div
+                    className="hero-visual-bg"
                     style={{
-                        position: 'absolute',
-                        inset: -50,
-                        background: bgStyle,
-                        backgroundPosition: 'center',
-                        backgroundSize: 'cover',
+                        backgroundImage: bgStyle,
                         y: yHero,
                         opacity: opacityHero
                     }}
                 />
-                <div className="container hero-content">
+                <div className="container hero-main-content">
                     <motion.div
                         initial={{ opacity: 0, y: 50 }}
                         animate={{ opacity: 1, y: 0 }}
-                        transition={{ duration: 1, delay: 0.2 }}
+                        transition={{ duration: 1.2, ease: [0.16, 1, 0.3, 1] }}
                     >
-                        <span className="category-tag"><Tag size={12} style={{ display: 'inline', marginRight: '5px' }} /> {project.category}</span>
-                        <h1 dangerouslySetInnerHTML={{ __html: project.title.replace(/\n/g, '<br/>') }}></h1>
+                        <span className="project-tag-premium">{project.category}</span>
+                        <h1 className="project-title-large" dangerouslySetInnerHTML={{ __html: project.title.replace(/\n/g, '<br/>') }}></h1>
                     </motion.div>
                 </div>
-            </div>
 
-            <div className="container project-content-wrapper">
                 <motion.div
-                    initial={{ opacity: 0, x: -20 }}
-                    animate={{ opacity: 1, x: 0 }}
-                    transition={{ duration: 0.6, delay: 0.4 }}
+                    className="project-scroll-cta"
+                    initial={{ opacity: 0 }}
+                    animate={{ opacity: 1 }}
+                    transition={{ delay: 1, duration: 1 }}
                 >
-                    <Link to="/projects" className="back-link">
-                        <ArrowLeft size={16} /> Back to Gallery
-                    </Link>
+                    <span>Scroll to explore</span>
+                    <div className="scroll-line-long"></div>
                 </motion.div>
+            </section>
 
-                <div className="project-grid-layout">
-                    {/* Main Left Content */}
+            <div className="container">
+                <div className="project-info-grid">
                     <motion.div
-                        className="main-content"
-                        variants={staggerContainer}
-                        initial="hidden"
-                        animate="visible"
+                        className="project-narrative"
+                        initial={{ opacity: 0, y: 50 }}
+                        whileInView={{ opacity: 1, y: 0 }}
+                        transition={{ duration: 1 }}
+                        viewport={{ once: true }}
                     >
-                        <motion.div variants={fadeUpVariant}>
-                            <h3>Project Overview</h3>
-                            <p style={{ fontSize: '1.25rem', color: '#fff' }}>{project.description}</p>
+                        <h2 className="section-title">Concept & Vision</h2>
+                        <h2>Defining Global Identities</h2>
+                        <p>{project.description}</p>
 
-                            {project.aboutProject && project.aboutProject !== project.description && (
-                                <p style={{ marginTop: '20px' }}>
-                                    {project.aboutProject}
-                                </p>
-                            )}
-                        </motion.div>
-
-                        <motion.div className="branding-images-grid" variants={staggerContainer}>
-                            {project.brandingImages && project.brandingImages.length > 0 ? (
-                                project.brandingImages.map((img, idx) => (
-                                    <motion.div
-                                        key={idx}
-                                        className="branding-image-wrapper"
-                                        variants={fadeUpVariant}
-                                        whileInView={{ opacity: 1, y: 0 }}
-                                        viewport={{ once: true, margin: "-100px" }}
-                                    >
-                                        <img
-                                            src={img.url}
-                                            alt={`${project.title} Visual ${idx + 1}`}
-                                            loading="lazy"
-                                        />
-                                    </motion.div>
-                                ))
-                            ) : (
-                                <motion.div variants={fadeUpVariant} className="placeholder-image">
-                                    Visuals coming soon
-                                </motion.div>
-                            )}
-                        </motion.div>
+                        {project.aboutProject && project.aboutProject !== project.description && (
+                            <p>{project.aboutProject}</p>
+                        )}
                     </motion.div>
 
-                    {/* Right Sidebar Meta Data - Sticky */}
                     <motion.aside
-                        className="project-meta"
-                        initial={{ opacity: 0, y: 30 }}
-                        animate={{ opacity: 1, y: 0 }}
-                        transition={{ duration: 0.8, delay: 0.5 }}
+                        className="project-meta-box"
+                        initial={{ opacity: 0, scale: 0.95 }}
+                        whileInView={{ opacity: 1, scale: 1 }}
+                        transition={{ duration: 0.8 }}
+                        viewport={{ once: true }}
                     >
-                        <div className="meta-item">
-                            <h4><User size={14} style={{ display: 'inline', marginRight: '6px', transform: 'translateY(-1px)' }} />Client</h4>
-                            <p>{project.client || 'Confidential'}</p>
+                        <div className="meta-row">
+                            <span className="meta-label">Client</span>
+                            <div className="meta-value">{project.client || 'Creative Excellence'}</div>
                         </div>
-                        <div className="meta-item">
-                            <h4><Calendar size={14} style={{ display: 'inline', marginRight: '6px', transform: 'translateY(-1px)' }} />Delivered</h4>
-                            <p>{project.date || (project.createdAt ? new Date(project.createdAt).toLocaleDateString('en-US', { year: 'numeric', month: 'long' }) : 'N/A')}</p>
+                        <div className="meta-row">
+                            <span className="meta-label">Category</span>
+                            <div className="meta-value">{project.category}</div>
                         </div>
-                        <div className="meta-item" style={{ borderBottom: 'none', paddingBottom: 0 }}>
-                            <h4>Role / Service</h4>
-                            <p>{project.category}</p>
+                        <div className="meta-row">
+                            <span className="meta-label">Project Date</span>
+                            <div className="meta-value">{project.date || '2025'}</div>
                         </div>
                     </motion.aside>
+                </div>
+
+                <div className="showcase-grid">
+                    {project.brandingImages && project.brandingImages.length > 0 ? (
+                        project.brandingImages.map((img, idx) => (
+                            <motion.div
+                                key={idx}
+                                className="showcase-item"
+                                initial={{ opacity: 0, y: 60 }}
+                                whileInView={{ opacity: 1, y: 0 }}
+                                transition={{ duration: 1, ease: [0.16, 1, 0.3, 1] }}
+                                viewport={{ once: true, margin: "-100px" }}
+                            >
+                                <img
+                                    src={img.url}
+                                    alt={`${project.title} Visual ${idx + 1}`}
+                                    loading="lazy"
+                                />
+                            </motion.div>
+                        ))
+                    ) : (
+                        <div className="placeholder-image">
+                            Visual Showcase Incoming
+                        </div>
+                    )}
+                </div>
+
+                <div style={{ textAlign: 'center', marginTop: '100px' }}>
+                    <Link to="/projects" className="btn-main btn-outline-white">
+                        <ArrowLeft size={18} /> BACK TO MASTER GALLERY
+                    </Link>
                 </div>
             </div>
         </article>

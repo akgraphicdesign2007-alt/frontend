@@ -23,9 +23,9 @@ const About = () => {
     useEffect(() => {
         const fetchContent = async () => {
             try {
-                const res = await api.get('/content');
-                const allContent = res.data.data || {};
-                const aboutContent = allContent['about_me'];
+                const res = await api.get('/pageContent');
+                const data = res.data.data || [];
+                const aboutContent = data.find(item => item.section === 'hero') || data.find(item => item.section === 'about_me');
 
                 if (aboutContent) {
                     setContent({
@@ -49,44 +49,47 @@ const About = () => {
         <section id="about" className="about-section">
             <div className="container about-container">
                 <motion.div
-                    className="about-image_wrapper"
-                    initial={{ opacity: 0, x: -50 }}
+                    className="about-image-side"
+                    initial={{ opacity: 0, x: -60 }}
                     whileInView={{ opacity: 1, x: 0 }}
-                    transition={{ duration: 0.8 }}
+                    transition={{ duration: 1, ease: [0.16, 1, 0.3, 1] }}
                     viewport={{ once: true }}
                 >
-                    <div className="about-image-placeholder">
+                    <div className="about-image-container">
                         {content.image ? (
-                            <img src={content.image} alt="About Me" style={{ width: '100%', height: '100%', objectFit: 'cover' }} />
+                            <img src={content.image} alt="Studio Work" className="about-img" />
                         ) : (
-                            <div className="overlay-text">PORTRAIT</div>
+                            <div className="about-img-fallback">PORTFOLIO</div>
                         )}
                     </div>
-                    <div className="decorative-box"></div>
+                    <div className="about-experience-badge">
+                        <h4>02+</h4>
+                        <p>Years of Vision</p>
+                    </div>
                 </motion.div>
 
                 <motion.div
-                    className="about-content"
-                    initial={{ opacity: 0, x: 50 }}
-                    whileInView={{ opacity: 1, x: 0 }}
-                    transition={{ duration: 0.8, delay: 0.2 }}
+                    className="about-content-side"
+                    initial={{ opacity: 0, y: 50 }}
+                    whileInView={{ opacity: 1, y: 0 }}
+                    transition={{ duration: 1, ease: [0.16, 1, 0.3, 1], delay: 0.2 }}
                     viewport={{ once: true }}
                 >
-                    <h2 className="section-title">{content.title}</h2>
-                    <h3 className="brand-statement">
-                        {content.subtitle}
-                    </h3>
-                    <p className="about-text" style={{ whiteSpace: 'pre-line' }}>
+                    <span className="about-tag">About Me</span>
+                    <h2 className="about-heading">{content.title}</h2>
+                    <p className="about-description">
                         {content.content}
                     </p>
 
-                    <div className="core-strengths">
-                        {strengths.map((item, index) => (
-                            <div key={index} className="strength-item">
-                                <CheckCircle size={20} className="icon" />
-                                <span>{item}</span>
-                            </div>
-                        ))}
+                    <div className="about-stats">
+                        <div className="stat-item">
+                            <h4><CheckCircle size={20} className="icon-check" /> Brand Mastery</h4>
+                            <p>Architecting identities that resonate across global markets.</p>
+                        </div>
+                        <div className="stat-item">
+                            <h4><CheckCircle size={20} className="icon-check" /> Interaction UX</h4>
+                            <p>Redefining how users experience the digital web space.</p>
+                        </div>
                     </div>
                 </motion.div>
             </div>

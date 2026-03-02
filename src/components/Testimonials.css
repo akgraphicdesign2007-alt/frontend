@@ -1,62 +1,144 @@
 .testimonials-section {
     padding: 100px 0;
-    background-color: #0c120e;
-    /* Slightly different shade */
-}
-
-.testimonials-grid {
-    display: grid;
-    grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
-    gap: 30px;
-    margin-top: 50px;
-}
-
-.testimonial-card {
-    background: rgba(255, 255, 255, 0.03);
-    border: 1px solid rgba(255, 255, 255, 0.05);
-    padding: 40px;
-    border-radius: 12px;
+    background-color: #020617;
     position: relative;
-    transition: transform 0.3s ease;
+    overflow: hidden;
 }
 
-.testimonial-card:hover {
+.testi-marquee-container {
+    width: 100%;
+    overflow: hidden;
+    position: relative;
+    padding: 20px 0;
+}
+
+/* Glassy gradient edges to fade out the scrolling */
+.testi-marquee-container::before,
+.testi-marquee-container::after {
+    content: '';
+    position: absolute;
+    top: 0;
+    bottom: 0;
+    width: 20vw;
+    z-index: 2;
+    pointer-events: none;
+}
+
+.testi-marquee-container::before {
+    left: 0;
+    background: linear-gradient(to right, #020617 0%, transparent 100%);
+}
+
+.testi-marquee-container::after {
+    right: 0;
+    background: linear-gradient(to left, #020617 0%, transparent 100%);
+}
+
+.testi-marquee-track {
+    display: flex;
+    gap: 30px;
+    width: max-content;
+    animation: smooth-scroll 45s linear infinite;
+    padding: 0 15px;
+}
+
+.testi-marquee-track:hover {
+    animation-play-state: paused;
+}
+
+@keyframes smooth-scroll {
+    0% {
+        transform: translateX(0);
+    }
+
+    100% {
+        transform: translateX(calc(-50% - 15px));
+    }
+}
+
+.testimonial-card-premium {
+    width: 450px;
+    background: rgba(255, 255, 255, 0.02);
+    padding: 40px;
+    border-radius: 24px;
+    border: 1px solid rgba(255, 255, 255, 0.05);
+    position: relative;
+    transition: all 0.4s cubic-bezier(0.19, 1, 0.22, 1);
+    display: flex;
+    flex-direction: column;
+}
+
+.testimonial-card-premium:hover {
+    background: rgba(255, 255, 255, 0.04);
+    border-color: rgba(251, 191, 36, 0.2);
     transform: translateY(-5px);
-    background: rgba(255, 255, 255, 0.05);
+    box-shadow: 0 15px 30px rgba(0, 0, 0, 0.5);
 }
 
-.quote-icon {
-    color: var(--accent-color);
-    margin-bottom: 20px;
-    opacity: 0.5;
+.quote-premium {
+    color: var(--primary);
+    margin-bottom: 25px;
+    opacity: 0.8;
 }
 
-.testimonial-text {
-    font-size: 1.1rem;
+.testimonial-text-premium {
+    font-size: 1.15rem;
     line-height: 1.6;
-    color: rgba(255, 255, 255, 0.9);
-    margin-bottom: 30px;
-    font-style: italic;
+    color: rgba(255, 255, 255, 0.7);
+    margin-bottom: 40px;
+    font-family: 'Inter', sans-serif;
 }
 
-.testimonial-author {
+.testimonial-footer-premium {
     display: flex;
     align-items: center;
     gap: 15px;
-    border-top: 1px solid rgba(255, 255, 255, 0.1);
-    padding-top: 20px;
+    margin-top: auto;
 }
 
-.testimonial-author h4 {
-    font-family: var(--font-headline);
-    color: #fff;
+.testi-avatar-placeholder {
+    width: 50px;
+    height: 50px;
+    background: rgba(251, 191, 36, 0.1);
+    color: var(--primary);
+    border: 1px solid rgba(251, 191, 36, 0.3);
+    border-radius: 50%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 1.3rem;
+    font-weight: 800;
+}
+
+.testi-info-premium {
+    display: flex;
+    flex-direction: column;
+}
+
+.testi-info-premium h4 {
+    font-family: 'Outfit', sans-serif;
     font-size: 1.1rem;
-    margin-bottom: 5px;
+    color: #fff;
+    margin: 0;
+    font-weight: 700;
 }
 
-.testimonial-author span {
-    color: var(--accent-color);
-    font-size: 0.85rem;
+.testi-info-premium p {
+    font-family: 'Oswald', sans-serif;
+    font-size: 0.8rem;
+    color: var(--text-muted);
     text-transform: uppercase;
     letter-spacing: 1px;
+    margin: 3px 0 0 0;
+}
+
+@media (max-width: 768px) {
+    .testimonial-card-premium {
+        width: 330px;
+        padding: 30px;
+    }
+
+    .testimonial-text-premium {
+        font-size: 1rem;
+    }
 }

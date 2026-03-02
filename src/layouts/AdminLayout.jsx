@@ -1,98 +1,85 @@
-import { Outlet, Link, useLocation } from 'react-router-dom';
+import { useState } from 'react';
+import { useNavigate, Link, useLocation } from 'react-router-dom';
+import { LayoutDashboard, User, Image, FileText, Users, Settings, MessageSquare, Quote, Globe, LogOut, Menu, X } from 'lucide-react';
 import { useAuth } from '../context/AuthContext';
-import {
-    LayoutDashboard,
-    Image,
-    FileText,
-    MessageSquare,
-    LogOut,
-    Globe,
-    Quote,
-    User,
-    Users,
-    Settings,
-    Bell
-} from 'lucide-react';
-import '../admin/AdminStyle.css';
+import './AdminLayout.css';
 
-const AdminLayout = () => {
-    const { logout, user } = useAuth();
+const AdminLayout = ({ children }) => {
+    const [isSidebarOpen, setIsSidebarOpen] = useState(true);
+    const { user, logout } = useAuth();
+    const navigate = useNavigate();
     const location = useLocation();
 
-    const sidebarItems = [
+    const menuItems = [
         { name: 'Dashboard', path: '/admin', icon: <LayoutDashboard size={20} /> },
-        { name: 'About Me', path: '/admin/about', icon: <User size={20} /> },
-        { name: 'Projects', path: '/admin/projects', icon: <Image size={20} /> },
-        { name: 'Blog', path: '/admin/blog', icon: <FileText size={20} /> },
-        { name: 'Users', path: '/admin/users', icon: <Users size={20} /> },
+        { name: 'Hero Management', path: '/admin/hero', icon: <Image size={20} /> },
+        { name: 'About Management', path: '/admin/about', icon: <User size={20} /> },
+        { name: 'Project Management', path: '/admin/projects', icon: <Image size={20} /> },
+        { name: 'Blog Management', path: '/admin/blog', icon: <FileText size={20} /> },
+        { name: 'User Management', path: '/admin/users', icon: <Users size={20} /> },
         { name: 'Site Settings', path: '/admin/settings', icon: <Settings size={20} /> },
         { name: 'Inbox', path: '/admin/inbox', icon: <MessageSquare size={20} /> },
         { name: 'Testimonials', path: '/admin/testimonials', icon: <Quote size={20} /> },
     ];
 
-    // Determine initials for Avatar
-    const getInitials = (name) => {
-        if (!name) return 'A';
-        const parts = name.split(' ');
-        if (parts.length >= 2) return `${parts[0][0]}${parts[1][0]}`.toUpperCase();
-        return parts[0][0].toUpperCase();
-    }
+    const handleLogout = () => {
+        logout();
+        navigate('/admin/login');
+    };
 
     return (
-        <div className="admin-layout-container">
-            {/* Sidebar */}
-            <aside className="admin-sidebar">
-                <div className="admin-sidebar-header">
+        <div className="admin-container">
+            <aside className={`admin-sidebar ${isSidebarOpen ? 'open' : 'closed'}`}>
+                <div className="sidebar-header">
                     <h2>AK<span>ADMIN</span></h2>
+                    <button onClick={() => setIsSidebarOpen(!isSidebarOpen)} className="toggle-btn">
+                        {isSidebarOpen ? <X size={20} /> : <Menu size={20} />}
+                    </button>
                 </div>
+                <nav className="sidebar-nav">
+                    {menuItems.map((item) => {
+                        // For the root dashboard path, match exactly. Otherwise, check if path starts with it (for nested routes like /admin/hero)
+                        const isActive = item.path === '/admin'
+                            ? location.pathname === '/admin'
+                            : location.pathname.startsWith(item.path);
 
-                <nav className="admin-sidebar-nav">
-                    {sidebarItems.map(item => (
-                        <Link
-                            key={item.path}
-                            to={item.path}
-                            className={`admin-nav-item ${location.pathname === item.path ? 'active' : ''}`}
-                        >
-                            {item.icon} {item.name}
-                        </Link>
-                    ))}
+                        return (
+                            <Link key={item.name} to={item.path} className={`nav-item ${isActive ? 'active' : ''}`}>
+                                {item.icon}
+                                <span>{item.name}</span>
+                            </Link>
+                        );
+                    })}
                 </nav>
-
-                <div className="admin-sidebar-footer">
-                    <Link to="/" target="_blank" className="admin-footer-link">
-                        <Globe size={18} /> View Live Site
-                    </Link>
-                    <button onClick={logout} className="admin-logout-btn">
-                        <LogOut size={18} /> Logout
+                <div className="sidebar-footer">
+                    <button onClick={handleLogout} className="logout-btn">
+                        <LogOut size={20} />
+                        <span>Logout</span>
                     </button>
                 </div>
             </aside>
-
-            {/* Main Content Area */}
-            <main className="admin-main-content">
-
-                {/* Topbar */}
-                <header className="admin-topbar">
-                    <div style={{ display: 'flex', alignItems: 'center', gap: '25px' }}>
-                        <div style={{ position: 'relative', cursor: 'pointer', color: 'rgba(255,255,255,0.6)' }}>
-                            <Bell size={20} />
-                            <span style={{ position: 'absolute', top: -2, right: -2, width: 8, height: 8, background: '#ff4d4d', borderRadius: '50%' }}></span>
-                        </div>
-                        <div style={{ width: '1px', height: '30px', background: 'rgba(255,255,255,0.1)' }}></div>
-                        <div className="admin-user-profile">
-                            <div className="admin-user-info" style={{ textAlign: 'right' }}>
-                                <h4>{user?.name || 'Administrator'}</h4>
-                                <span>{user?.role || 'Admin'}</span>
+            <main className="admin-content">
+                <header className="admin-header">
+                    <div className="header-left">
+                        <Link to="/" target="_blank" className="view-site-premium">
+                            <Globe size={18} /> <span>Live Preview</span>
+                        </Link>
+                    </div>
+                    <div className="header-right">
+                        <div className="glass-divider"></div>
+                        <div className="user-profile-premium">
+                            <div className="user-info-text">
+                                <strong>{user?.name}</strong>
+                                <span>{user?.role}</span>
                             </div>
-                            <div className="admin-user-avatar">
-                                {getInitials(user?.name)}
+                            <div className="avatar-circle-glow">
+                                {user?.name?.charAt(0).toUpperCase()}
                             </div>
                         </div>
                     </div>
                 </header>
-
-                <div className="admin-page-container">
-                    <Outlet />
+                <div className="admin-page-content">
+                    {children}
                 </div>
             </main>
         </div>

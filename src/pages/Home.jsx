@@ -3,7 +3,7 @@ import About from '../components/About';
 import Services from '../components/Services';
 import Projects from '../components/Projects';
 import Blog from '../components/Blog';
-import Contact from '../components/Contact';
+import Cta from '../components/Cta';
 import Testimonials from '../components/Testimonials';
 
 const Home = () => {
@@ -13,9 +13,9 @@ const Home = () => {
             <About />
             <Services />
             <Projects />
-            <Blog />
+            <Blog limit={3} />
             <Testimonials />
-            <Contact />
+            <Cta />
         </main>
     );
 };
