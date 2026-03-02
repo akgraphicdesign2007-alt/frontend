@@ -1,8 +1,19 @@
 import { motion } from 'framer-motion';
 import About from '../components/About';
 import ToolsSection from '../components/ToolsSection';
+import { useSEO } from '../hooks/useSEO';
 
 const AboutPage = () => {
+    useSEO({
+        title: 'About — Creative Visionary',
+        description: 'Learn about AK Designs — a multidisciplinary visual artist dedicated to pushing the boundaries of brand identity, logo design, and cinematic digital experiences.',
+        url: 'https://www.akdesigns.space/about',
+        breadcrumbs: [
+            { name: 'Home', url: '/' },
+            { name: 'About' },
+        ],
+    });
+
     return (
         <main className="about-page-wrapper">
             <section className="page-header-premium">

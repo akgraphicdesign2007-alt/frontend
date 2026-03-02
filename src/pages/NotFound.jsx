@@ -2,9 +2,16 @@ import { Link } from 'react-router-dom';
 import { Home, ArrowLeft } from 'lucide-react';
 import Navbar from '../components/Navbar';
 import Footer from '../components/Footer';
+import { useSEO } from '../hooks/useSEO';
 import './NotFound.css';
 
 const NotFound = () => {
+    useSEO({
+        title: '404 — Page Not Found',
+        description: 'The page you are looking for could not be found. Return to AK Designs\' homepage.',
+        noIndex: true, // 404 pages must never be indexed
+    });
+
     return (
         <>
             <Navbar />

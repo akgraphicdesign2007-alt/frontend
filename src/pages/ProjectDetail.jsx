@@ -1,9 +1,12 @@
 import { useState, useEffect } from 'react';
 import { useParams, Link, useLocation } from 'react-router-dom';
-import { ArrowLeft, Loader2, Calendar, User, Tag } from 'lucide-react';
+import { ArrowLeft, Loader2 } from 'lucide-react';
 import { motion, useScroll, useTransform } from 'framer-motion';
 import api from '../api/config';
+import { useSEO } from '../hooks/useSEO';
 import './ProjectDetail.css';
+
+const SITE_URL = 'https://www.akdesigns.space';
 
 const fadeUpVariant = {
     hidden: { opacity: 0, y: 30 },
@@ -14,9 +17,7 @@ const staggerContainer = {
     hidden: { opacity: 0 },
     visible: {
         opacity: 1,
-        transition: {
-            staggerChildren: 0.2
-        }
+        transition: { staggerChildren: 0.2 }
     }
 };
 
@@ -60,6 +61,38 @@ const ProjectDetail = () => {
 
         fetchProject();
     }, [slug, project]);
+
+    // ── Dynamic SEO: updates when project data loads ──────────────
+    useSEO({
+        title: project?.title || 'Project',
+        description: project?.description
+            ? `${project.description.slice(0, 140)}…`
+            : `View this ${project?.category || 'design'} project by AK Designs — premium brand identity and visual design.`,
+        image: project?.imageUrl || undefined,
+        url: `${SITE_URL}/projects/${slug}`,
+        type: 'website',
+        noIndex: !project && !loading,
+        jsonLd: project ? {
+            '@context': 'https://schema.org',
+            '@type': 'CreativeWork',
+            name: project.title,
+            description: project.description,
+            image: project.imageUrl,
+            dateCreated: project.date || project.createdAt,
+            creator: {
+                '@type': 'Person',
+                name: 'AK Designs',
+                url: SITE_URL,
+            },
+            genre: project.category,
+            url: `${SITE_URL}/projects/${slug}`,
+        } : null,
+        breadcrumbs: [
+            { name: 'Home', url: '/' },
+            { name: 'Projects', url: '/projects' },
+            { name: project?.title || slug },
+        ],
+    });
 
     if (loading) return <div className="loading-container"><Loader2 className="animate-spin" size={40} /></div>;
 
@@ -117,7 +150,7 @@ const ProjectDetail = () => {
                         transition={{ duration: 1 }}
                         viewport={{ once: true }}
                     >
-                        <h2 className="section-title">Concept & Vision</h2>
+                        <h2 className="section-title">Concept &amp; Vision</h2>
                         <h2>Defining Global Identities</h2>
                         <p>{project.description}</p>
 
@@ -161,8 +194,10 @@ const ProjectDetail = () => {
                             >
                                 <img
                                     src={img.url}
-                                    alt={`${project.title} Visual ${idx + 1}`}
+                                    alt={`${project.title} — visual ${idx + 1}`}
                                     loading="lazy"
+                                    width="1200"
+                                    height="800"
                                 />
                             </motion.div>
                         ))

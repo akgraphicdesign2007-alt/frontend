@@ -1,7 +1,18 @@
 import { motion } from 'framer-motion';
 import Blog from '../components/Blog';
+import { useSEO } from '../hooks/useSEO';
 
 const BlogPage = () => {
+    useSEO({
+        title: 'Blog — Visual Insights & Design Journal',
+        description: 'Explore AK Designs\' journal — in-depth articles on brand strategy, logo design, visual identity, and the intersection of art and technology.',
+        url: 'https://www.akdesigns.space/blog',
+        breadcrumbs: [
+            { name: 'Home', url: '/' },
+            { name: 'Blog' },
+        ],
+    });
+
     return (
         <main className="publications-page-wrapper">
             <section className="page-header-premium">

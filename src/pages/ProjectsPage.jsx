@@ -1,7 +1,18 @@
 import { motion } from 'framer-motion';
 import Projects from '../components/Projects';
+import { useSEO } from '../hooks/useSEO';
 
 const ProjectsPage = () => {
+    useSEO({
+        title: 'Projects — Selected Works & Case Studies',
+        description: 'Browse AK Designs\' portfolio — a curated selection of high-end visual identity systems, brand designs, logos, and digital experiences engineered for global brands.',
+        url: 'https://www.akdesigns.space/projects',
+        breadcrumbs: [
+            { name: 'Home', url: '/' },
+            { name: 'Projects' },
+        ],
+    });
+
     return (
         <main className="projects-page-wrapper">
             <section className="page-header-premium">

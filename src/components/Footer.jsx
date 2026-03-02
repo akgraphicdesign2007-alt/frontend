@@ -45,7 +45,13 @@ const Footer = () => {
         siteName: 'AK Design',
         email: 'hello@akdesigns.space',
         phone: '',
-        socialLinks: {}
+        socialLinks: {
+            instagram: 'https://www.instagram.com/akcreative._',
+            linkedin: 'https://www.linkedin.com/in/ak-design-9bb1173a1',
+            behance: 'https://www.behance.net/akdesign_hub',
+            facebook: 'https://www.facebook.com/share/1GUwsErRAH/',
+            telegram: 'https://t.me/Akcreativex',
+        }
     };
 
     return (

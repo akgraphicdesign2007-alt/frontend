@@ -3,7 +3,10 @@ import { useParams, Link } from 'react-router-dom';
 import { ArrowLeft, Clock, Calendar, Loader2 } from 'lucide-react';
 import { motion } from 'framer-motion';
 import api from '../api/config';
+import { useSEO } from '../hooks/useSEO';
 import './BlogDetail.css';
+
+const SITE_URL = 'https://www.akdesigns.space';
 
 const BlogDetail = () => {
     const { slug } = useParams();
@@ -15,7 +18,6 @@ const BlogDetail = () => {
         const fetchPost = async () => {
             setLoading(true);
             try {
-                // Fetch direct from API using slug
                 const res = await api.get(`/blog/${slug}`);
                 setPost(res.data.data || res.data);
             } catch (err) {
@@ -28,6 +30,49 @@ const BlogDetail = () => {
 
         fetchPost();
     }, [slug]);
+
+    // ── Dynamic SEO: updates as soon as `post` loads ──────────────
+    useSEO({
+        title: post?.title || 'Blog Post',
+        description: post?.excerpt || 'Read this article on the AK Designs journal — insights on brand design, visual identity, and creative strategy.',
+        image: post?.imageUrl || undefined,
+        url: `${SITE_URL}/blog/${slug}`,
+        type: 'article',
+        noIndex: !post && !loading, // noindex if post not found
+        jsonLd: post ? {
+            '@context': 'https://schema.org',
+            '@type': 'Article',
+            headline: post.title,
+            description: post.excerpt,
+            image: post.imageUrl,
+            datePublished: post.createdAt,
+            dateModified: post.updatedAt || post.createdAt,
+            author: {
+                '@type': 'Person',
+                name: post.author || 'AK Designs',
+                url: SITE_URL,
+            },
+            publisher: {
+                '@type': 'Organization',
+                name: 'AK Designs',
+                logo: {
+                    '@type': 'ImageObject',
+                    url: `${SITE_URL}/logo.png`,
+                },
+            },
+            mainEntityOfPage: {
+                '@type': 'WebPage',
+                '@id': `${SITE_URL}/blog/${slug}`,
+            },
+            articleSection: post.category,
+            keywords: post.category,
+        } : null,
+        breadcrumbs: [
+            { name: 'Home', url: '/' },
+            { name: 'Blog', url: '/blog' },
+            { name: post?.title || slug },
+        ],
+    });
 
     if (loading) return (
         <div className="blog-detail-page" style={{ height: '100vh', display: 'flex', alignItems: 'center', justifyContent: 'center' }}>
@@ -63,6 +108,7 @@ const BlogDetail = () => {
                         <div className="blog-meta-premium">
                             <span><Calendar size={14} /> {post.createdAt ? new Date(post.createdAt).toLocaleDateString('en-US', { month: 'long', day: 'numeric', year: 'numeric' }) : 'Recent'}</span>
                             <span><Clock size={14} /> {post.readTime || '5 Minute Read'}</span>
+                            {post.category && <span>{post.category}</span>}
                         </div>
                     </motion.div>
                 </div>
@@ -75,6 +121,11 @@ const BlogDetail = () => {
                 transition={{ duration: 1 }}
                 viewport={{ once: true }}
             >
+                {/* Excerpt as visible lead paragraph for screen readers & SEO */}
+                {post.excerpt && (
+                    <p className="blog-excerpt-lead">{post.excerpt}</p>
+                )}
+
                 <div className="blog-content-rich">
                     {post.content ? (
                         <div dangerouslySetInnerHTML={{ __html: post.content }} />

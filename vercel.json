@@ -1,5 +1,5 @@
 {
-    "buildCommand": "npm run build",
+    "buildCommand": "npm run build:prod",
     "outputDirectory": "dist",
     "devCommand": "npm run dev",
     "installCommand": "npm install",
@@ -12,10 +12,55 @@
     ],
     "headers": [
         {
+            "source": "/(.*)",
+            "headers": [
+                {
+                    "key": "X-Content-Type-Options",
+                    "value": "nosniff"
+                },
+                {
+                    "key": "X-Frame-Options",
+                    "value": "SAMEORIGIN"
+                },
+                {
+                    "key": "X-XSS-Protection",
+                    "value": "1; mode=block"
+                },
+                {
+                    "key": "Referrer-Policy",
+                    "value": "no-referrer-when-downgrade"
+                },
+                {
+                    "key": "Permissions-Policy",
+                    "value": "camera=(), microphone=(), geolocation=()"
+                },
+                {
+                    "key": "Content-Security-Policy",
+                    "value": "default-src 'self'; script-src 'self' 'unsafe-inline' https://challenges.cloudflare.com https://static.cloudflareinsights.com; frame-src https://challenges.cloudflare.com; style-src 'self' 'unsafe-inline' https://fonts.googleapis.com; font-src 'self' https://fonts.gstatic.com; img-src 'self' data: https: blob:; connect-src 'self' https://api.akdesign.space https://res.cloudinary.com https://challenges.cloudflare.com;"
+                },
+                {
+                    "key": "CDN-Cache-Control",
+                    "value": "public, max-age=300, stale-while-revalidate=60"
+                },
+                {
+                    "key": "Surrogate-Control",
+                    "value": "max-age=300"
+                },
+                {
+                    "key": "Vary",
+                    "value": "Accept-Encoding"
+                }
+            ]
+        },
+        {
             "source": "/assets/(.*)",
             "headers": [
                 {
                     "key": "Cache-Control",
+                    "value": "public, max-age=31536000, immutable"
+                },
+                {
+                    "key": "CDN-Cache-Control",
                     "value": "public, max-age=31536000, immutable"
                 }
             ]
@@ -25,7 +70,50 @@
             "headers": [
                 {
                     "key": "Content-Type",
-                    "value": "application/xml"
+                    "value": "application/xml; charset=utf-8"
+                },
+                {
+                    "key": "Cache-Control",
+                    "value": "public, max-age=86400, stale-while-revalidate=3600"
+                }
+            ]
+        },
+        {
+            "source": "/sitemap-index.xml",
+            "headers": [
+                {
+                    "key": "Content-Type",
+                    "value": "application/xml; charset=utf-8"
+                },
+                {
+                    "key": "Cache-Control",
+                    "value": "public, max-age=86400, stale-while-revalidate=3600"
+                }
+            ]
+        },
+        {
+            "source": "/sitemap-blog.xml",
+            "headers": [
+                {
+                    "key": "Content-Type",
+                    "value": "application/xml; charset=utf-8"
+                },
+                {
+                    "key": "Cache-Control",
+                    "value": "public, max-age=86400, stale-while-revalidate=3600"
+                }
+            ]
+        },
+        {
+            "source": "/sitemap-projects.xml",
+            "headers": [
+                {
+                    "key": "Content-Type",
+                    "value": "application/xml; charset=utf-8"
+                },
+                {
+                    "key": "Cache-Control",
+                    "value": "public, max-age=86400, stale-while-revalidate=3600"
                 }
             ]
         },
@@ -35,6 +123,23 @@
                 {
                     "key": "Content-Type",
                     "value": "text/plain"
+                },
+                {
+                    "key": "Cache-Control",
+                    "value": "public, max-age=86400"
+                }
+            ]
+        },
+        {
+            "source": "/manifest.json",
+            "headers": [
+                {
+                    "key": "Content-Type",
+                    "value": "application/manifest+json"
+                },
+                {
+                    "key": "Cache-Control",
+                    "value": "public, max-age=86400"
                 }
             ]
         }

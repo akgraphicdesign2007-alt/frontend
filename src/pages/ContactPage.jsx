@@ -1,7 +1,25 @@
 import { motion } from 'framer-motion';
 import Contact from '../components/Contact';
+import { useSEO } from '../hooks/useSEO';
 
 const ContactPage = () => {
+    useSEO({
+        title: 'Contact — Start Your Project',
+        description: 'Ready to elevate your brand? Get in touch with AK Designs to discuss your next logo, brand identity, or high-end visual project. Working with clients worldwide.',
+        url: 'https://www.akdesigns.space/contact',
+        breadcrumbs: [
+            { name: 'Home', url: '/' },
+            { name: 'Contact' },
+        ],
+        jsonLd: {
+            '@context': 'https://schema.org',
+            '@type': 'ContactPage',
+            name: 'Contact AK Designs',
+            url: 'https://www.akdesigns.space/contact',
+            description: 'Get in touch with AK Designs for brand identity, logo design, and visual projects.',
+        },
+    });
+
     return (
         <main className="contact-page-wrapper">
             <section className="page-header-premium">
