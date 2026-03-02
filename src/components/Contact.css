@@ -210,8 +210,43 @@
     }
 }
 
-@media (max-width: 600px) {
+@media (max-width: 768px) {
+    .contact-section {
+        padding: 50px 0;
+    }
+
     .contact-heading {
-        font-size: 2.2rem;
+        font-size: 2rem;
+    }
+
+    .contact-form-premium {
+        padding: 24px;
+    }
+}
+
+@media (max-width: 480px) {
+    .contact-heading {
+        font-size: 1.7rem;
+    }
+
+    .contact-card-premium {
+        padding: 15px;
+        gap: 12px;
+    }
+
+    .card-icon-box {
+        width: 42px;
+        height: 42px;
+        flex-shrink: 0;
+    }
+
+    .contact-form-premium {
+        padding: 18px;
+    }
+
+    .premium-input,
+    .premium-textarea {
+        padding: 12px 14px;
+        font-size: 0.9rem;
     }
 }

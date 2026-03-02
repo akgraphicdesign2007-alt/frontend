@@ -19,11 +19,11 @@ const Dashboard = () => {
             const [projects, blogs, users, contacts, testis] = await Promise.all([
                 api.get('/gallery'), api.get('/blog'), api.get('/auth/users'), api.get('/contact'), api.get('/testimonial')
             ]);
-            const projData = projects.data.data;
-            const blogData = blogs.data.data;
-            const userData = users.data.data;
-            const contactData = contacts.data.data;
-            const testiData = testis.data.data;
+            const projData = Array.isArray(projects.data?.data) ? projects.data.data : [];
+            const blogData = Array.isArray(blogs.data?.data) ? blogs.data.data : [];
+            const userData = Array.isArray(users.data?.data) ? users.data.data : [];
+            const contactData = Array.isArray(contacts.data?.data) ? contacts.data.data : [];
+            const testiData = Array.isArray(testis.data?.data) ? testis.data.data : [];
 
             setStats({
                 projects: projData.length,

@@ -118,6 +118,28 @@
     background: radial-gradient(circle at top right, rgba(251, 191, 36, 0.03), transparent);
 }
 
+.header-left {
+    display: flex;
+    align-items: center;
+    gap: 16px;
+}
+
+.mobile-menu-btn {
+    display: none;
+    background: none;
+    border: none;
+    color: rgba(255, 255, 255, 0.7);
+    cursor: pointer;
+    padding: 6px;
+    border-radius: 8px;
+    transition: background 0.2s;
+}
+
+.mobile-menu-btn:hover {
+    background: rgba(255, 255, 255, 0.05);
+    color: #fff;
+}
+
 .admin-header {
     height: 90px;
     background: var(--bg-surface);
@@ -285,4 +307,100 @@ h1,
 h2,
 h3 {
     font-family: 'Oswald', sans-serif;
+}
+
+/* ─── Responsive Admin Layout ─── */
+
+@media (max-width: 1024px) {
+    .admin-sidebar {
+        position: fixed;
+        left: -280px;
+        top: 0;
+        height: 100vh;
+        z-index: 200;
+        box-shadow: 4px 0 30px rgba(0, 0, 0, 0.5);
+        transition: left 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+    }
+
+    .admin-sidebar.mobile-open {
+        left: 0;
+    }
+
+    .admin-sidebar.closed {
+        width: 280px;
+        left: -280px;
+    }
+
+    .admin-content {
+        width: 100%;
+    }
+
+    .admin-header {
+        padding: 0 20px;
+    }
+
+    .admin-page-content {
+        padding: 24px 20px;
+    }
+
+    .sidebar-overlay {
+        display: block;
+        position: fixed;
+        inset: 0;
+        background: rgba(0, 0, 0, 0.6);
+        z-index: 199;
+        backdrop-filter: blur(4px);
+    }
+
+    .mobile-menu-btn {
+        display: flex;
+        align-items: center;
+        justify-content: center;
+    }
+}
+
+@media (max-width: 768px) {
+    .admin-header {
+        height: 70px;
+        padding: 0 16px;
+    }
+
+    .admin-welcome-msg h3 {
+        font-size: 1rem;
+    }
+
+    .admin-welcome-msg p {
+        display: none;
+    }
+
+    .view-site-premium span {
+        display: none;
+    }
+
+    .view-site-premium {
+        padding: 10px;
+        border-radius: 50%;
+        width: 38px;
+        height: 38px;
+        justify-content: center;
+    }
+
+    .glass-divider {
+        display: none;
+    }
+
+    .admin-page-content {
+        padding: 16px;
+    }
+}
+
+@media (max-width: 480px) {
+    .user-info-text {
+        display: none;
+    }
+
+    .user-profile-premium {
+        padding: 8px;
+        border-radius: 50%;
+    }
 }

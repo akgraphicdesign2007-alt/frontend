@@ -17,7 +17,8 @@ const Projects = () => {
         const fetchProjects = async () => {
             try {
                 const res = await api.get('/gallery');
-                setProjects(res.data.data || res.data); // Handle potential { success: true, data: [] } wrapper
+                const dataList = Array.isArray(res.data?.data) ? res.data.data : (Array.isArray(res.data) ? res.data : []);
+                setProjects(dataList);
                 setLoading(false);
             } catch (err) {
                 console.error(err);

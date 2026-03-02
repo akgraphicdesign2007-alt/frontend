@@ -11,8 +11,9 @@ const Testimonials = () => {
     useEffect(() => {
         const fetchTestimonials = async () => {
             try {
-                const res = await api.get('/testimonial'); // Fetches approved only by default
-                setTestimonials(res.data.data);
+                const res = await api.get('/testimonial');
+                const dataList = Array.isArray(res.data?.data) ? res.data.data : (Array.isArray(res.data) ? res.data : []);
+                setTestimonials(dataList);
             } catch (error) {
                 console.error('Failed to load testimonials', error);
             } finally {

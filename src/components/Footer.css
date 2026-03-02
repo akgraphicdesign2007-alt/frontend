@@ -139,6 +139,12 @@
     }
 }
 
+@media (max-width: 768px) {
+    .footer {
+        padding: 50px 0 24px;
+    }
+}
+
 @media (max-width: 600px) {
     .footer-top {
         grid-template-columns: 1fr;
@@ -162,5 +168,17 @@
         flex-direction: column;
         gap: 20px;
         text-align: center;
+    }
+}
+
+@media (max-width: 480px) {
+    .footer-logo-text {
+        font-size: 1rem;
+    }
+
+    .legal-links {
+        gap: 16px;
+        flex-wrap: wrap;
+        justify-content: center;
     }
 }

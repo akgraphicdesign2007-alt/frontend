@@ -14,7 +14,7 @@ const Blog = ({ limit = 0 }) => {
         const fetchPosts = async () => {
             try {
                 const res = await api.get('/blog');
-                const allPosts = res.data.data || res.data;
+                const allPosts = Array.isArray(res.data?.data) ? res.data.data : (Array.isArray(res.data) ? res.data : []);
                 // If limit is passed (e.g. 3 for Homepage), slice it. Otherwise show all.
                 setPosts(limit > 0 ? allPosts.slice(0, limit) : allPosts);
                 setLoading(false);

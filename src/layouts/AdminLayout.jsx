@@ -6,6 +6,7 @@ import './AdminLayout.css';
 
 const AdminLayout = ({ children }) => {
     const [isSidebarOpen, setIsSidebarOpen] = useState(true);
+    const [isMobileOpen, setIsMobileOpen] = useState(false);
     const { user, logout } = useAuth();
     const navigate = useNavigate();
     const location = useLocation();
@@ -30,7 +31,12 @@ const AdminLayout = ({ children }) => {
 
     return (
         <div className="admin-container">
-            <aside className={`admin-sidebar ${isSidebarOpen ? 'open' : 'closed'}`}>
+            {/* Mobile overlay — closes sidebar when tapped */}
+            {isMobileOpen && (
+                <div className="sidebar-overlay" onClick={() => setIsMobileOpen(false)} />
+            )}
+
+            <aside className={`admin-sidebar ${isSidebarOpen ? 'open' : 'closed'} ${isMobileOpen ? 'mobile-open' : ''}`}>
                 <div className="sidebar-header">
                     <h2>AK<span>ADMIN</span></h2>
                     <button onClick={() => setIsSidebarOpen(!isSidebarOpen)} className="toggle-btn">
@@ -45,7 +51,12 @@ const AdminLayout = ({ children }) => {
                             : location.pathname.startsWith(item.path);
 
                         return (
-                            <Link key={item.name} to={item.path} className={`nav-item ${isActive ? 'active' : ''}`}>
+                            <Link
+                                key={item.name}
+                                to={item.path}
+                                className={`nav-item ${isActive ? 'active' : ''}`}
+                                onClick={() => setIsMobileOpen(false)}
+                            >
                                 {item.icon}
                                 <span>{item.name}</span>
                             </Link>
@@ -59,9 +70,18 @@ const AdminLayout = ({ children }) => {
                     </button>
                 </div>
             </aside>
+
             <main className="admin-content">
                 <header className="admin-header">
                     <div className="header-left">
+                        {/* Mobile hamburger — shown only on small screens */}
+                        <button
+                            onClick={() => setIsMobileOpen(!isMobileOpen)}
+                            className="mobile-menu-btn"
+                            aria-label="Toggle sidebar"
+                        >
+                            <Menu size={22} />
+                        </button>
                         <Link to="/" target="_blank" className="view-site-premium">
                             <Globe size={18} /> <span>Live Preview</span>
                         </Link>

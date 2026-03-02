@@ -163,3 +163,22 @@
         display: block;
     }
 }
+
+@media (max-width: 480px) {
+    .navbar {
+        padding: 14px 0;
+    }
+
+    .navbar-logo {
+        width: 180px;
+        height: 42px;
+    }
+
+    .nav-links-mobile a {
+        font-size: 2rem;
+    }
+
+    .nav-links-mobile li {
+        margin-bottom: 30px;
+    }
+}

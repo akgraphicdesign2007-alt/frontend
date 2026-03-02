@@ -133,12 +133,38 @@
 }
 
 @media (max-width: 768px) {
+    .testimonials-section {
+        padding: 60px 0;
+    }
+
     .testimonial-card-premium {
-        width: 330px;
-        padding: 30px;
+        width: 300px;
+        padding: 28px;
     }
 
     .testimonial-text-premium {
         font-size: 1rem;
+    }
+
+    .testi-marquee-container::before,
+    .testi-marquee-container::after {
+        width: 10vw;
+    }
+}
+
+@media (max-width: 480px) {
+    .testimonial-card-premium {
+        width: 270px;
+        padding: 22px;
+    }
+
+    .testimonial-text-premium {
+        font-size: 0.9rem;
+        margin-bottom: 24px;
+    }
+
+    .testi-marquee-container::before,
+    .testi-marquee-container::after {
+        width: 5vw;
     }
 }

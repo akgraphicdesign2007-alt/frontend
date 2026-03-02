@@ -39,7 +39,7 @@ const ProjectDetail = () => {
             setLoading(true);
             try {
                 const res = await api.get('/gallery');
-                const allProjects = res.data.data || res.data;
+                const allProjects = Array.isArray(res.data?.data) ? res.data.data : (Array.isArray(res.data) ? res.data : []);
                 const found = allProjects.find(p => {
                     const pSlug = p.slug || p.title.toLowerCase().replace(/[^\w\s-]/g, '').replace(/\s+/g, '-');
                     return pSlug === slug;

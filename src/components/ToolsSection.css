@@ -74,6 +74,14 @@
 }
 
 @media (max-width: 768px) {
+    .tools-section {
+        padding: 60px 0;
+    }
+
+    .tools-header {
+        margin-bottom: 50px;
+    }
+
     .tools-subtitle {
         font-size: 2.5rem;
     }
@@ -81,5 +89,30 @@
     .tool-card {
         min-width: 140px;
         padding: 30px;
+    }
+}
+
+@media (max-width: 480px) {
+    .tools-section {
+        padding: 50px 0;
+    }
+
+    .tools-subtitle {
+        font-size: 1.8rem;
+    }
+
+    .tool-card {
+        min-width: 110px;
+        padding: 20px 16px;
+        gap: 12px;
+    }
+
+    .tool-icon {
+        width: 60px;
+        height: 60px;
+    }
+
+    .tool-name {
+        font-size: 0.75rem;
     }
 }

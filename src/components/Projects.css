@@ -168,13 +168,51 @@
 }
 
 @media (max-width: 768px) {
+    .projects-section {
+        padding: 50px 0;
+    }
+
+    .projects-header {
+        flex-direction: column;
+        align-items: flex-start;
+        gap: 16px;
+    }
+
     .title-area h2 {
-        font-size: 2rem;
+        font-size: 1.8rem;
+    }
+
+    .categories {
+        width: 100%;
     }
 
     .project-content-overlay {
         opacity: 1;
         transform: translateY(0);
         padding: 20px;
+    }
+
+    .project-title-premium {
+        font-size: 1.2rem;
+    }
+}
+
+@media (max-width: 480px) {
+    .title-area h2 {
+        font-size: 1.5rem;
+    }
+
+    .project-item {
+        aspect-ratio: 16/10;
+        border-radius: 14px;
+    }
+
+    .project-content-overlay {
+        padding: 16px;
+    }
+
+    .cat-btn {
+        font-size: 0.7rem;
+        padding: 6px 14px;
     }
 }

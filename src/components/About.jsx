@@ -24,7 +24,7 @@ const About = () => {
         const fetchContent = async () => {
             try {
                 const res = await api.get('/pageContent');
-                const data = res.data.data || [];
+                const data = Array.isArray(res.data?.data) ? res.data.data : [];
                 const aboutContent = data.find(item => item.section === 'hero') || data.find(item => item.section === 'about_me');
 
                 if (aboutContent) {

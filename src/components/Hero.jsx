@@ -23,7 +23,8 @@ const Hero = () => {
         const fetchHeroContent = async () => {
             try {
                 const res = await api.get('/pageContent');
-                const heroData = res.data.data.find(item => item.section === 'hero_main');
+                const pageDataList = Array.isArray(res.data.data) ? res.data.data : [];
+                const heroData = pageDataList.find(item => item.section === 'hero_main');
 
                 if (heroData) {
                     const titles = (heroData.title || '').split('||');

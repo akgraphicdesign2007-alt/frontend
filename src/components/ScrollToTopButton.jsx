@@ -27,22 +27,25 @@ const ScrollToTopButton = () => {
     };
 
     return (
-        <AnimatePresence>
-            {isVisible && (
-                <motion.button
-                    initial={{ opacity: 0, scale: 0.8 }}
-                    animate={{ opacity: 1, scale: 1 }}
-                    exit={{ opacity: 0, scale: 0.8 }}
-                    whileHover={{ scale: 1.1 }}
-                    whileTap={{ scale: 0.9 }}
-                    className="scroll-to-top-btn"
-                    onClick={scrollToTop}
-                    aria-label="Scroll to top"
-                >
-                    <ArrowUp size={24} />
-                </motion.button>
-            )}
-        </AnimatePresence>
+        <div style={{ position: 'fixed', bottom: 0, right: 0, zIndex: 1000, pointerEvents: 'none' }}>
+            <AnimatePresence>
+                {isVisible && (
+                    <motion.button
+                        initial={{ opacity: 0, scale: 0.8 }}
+                        animate={{ opacity: 1, scale: 1 }}
+                        exit={{ opacity: 0, scale: 0.8 }}
+                        whileHover={{ scale: 1.1 }}
+                        whileTap={{ scale: 0.9 }}
+                        className="scroll-to-top-btn"
+                        onClick={scrollToTop}
+                        aria-label="Scroll to top"
+                        style={{ pointerEvents: 'all' }}
+                    >
+                        <ArrowUp size={24} />
+                    </motion.button>
+                )}
+            </AnimatePresence>
+        </div>
     );
 };
 

@@ -126,16 +126,57 @@
 @media (max-width: 1024px) {
     .about-container {
         grid-template-columns: 1fr;
-        gap: 80px;
+        gap: 60px;
     }
 
     .about-image-side {
         padding-right: 0;
-        max-width: 500px;
+        max-width: 480px;
         margin: 0 auto;
     }
 
     .about-heading {
-        font-size: 3.5rem;
+        font-size: 3rem;
+    }
+}
+
+@media (max-width: 768px) {
+    .about-section {
+        padding: 50px 0;
+    }
+
+    .about-heading {
+        font-size: 2.2rem;
+    }
+
+    .about-experience-badge {
+        min-width: 150px;
+        padding: 20px;
+        bottom: -20px;
+    }
+
+    .about-experience-badge h4 {
+        font-size: 1.6rem;
+    }
+
+    .about-stats {
+        grid-template-columns: 1fr;
+        gap: 20px;
+    }
+}
+
+@media (max-width: 480px) {
+    .about-image-side {
+        max-width: 100%;
+    }
+
+    .about-heading {
+        font-size: 1.8rem;
+    }
+
+    .about-experience-badge {
+        right: 10px;
+        min-width: 130px;
+        padding: 15px;
     }
 }

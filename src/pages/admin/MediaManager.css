@@ -293,3 +293,37 @@
         width: 100%;
     }
 }
+
+@media (max-width: 600px) {
+    .media-manager-page {
+        padding: 16px;
+    }
+
+    .filter-group-premium {
+        flex-wrap: wrap;
+    }
+
+    .media-grid-premium {
+        grid-template-columns: repeat(auto-fill, minmax(200px, 1fr));
+        gap: 16px;
+    }
+
+    .storage-stats {
+        text-align: center;
+    }
+}
+
+@media (max-width: 480px) {
+    .media-grid-premium {
+        grid-template-columns: 1fr 1fr;
+        gap: 12px;
+    }
+
+    .media-thumbnail {
+        height: 140px;
+    }
+
+    .media-details {
+        padding: 12px;
+    }
+}
