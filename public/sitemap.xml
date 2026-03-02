@@ -62,7 +62,7 @@
        DYNAMIC CONTENT
        Individual project and blog post URLs are generated
        dynamically via the backend sitemap API endpoint:
-         GET https://api.akdesign.space/api/sitemap
+         GET https://api.akdesigns.space/api/sitemap
        and merged into sitemap-index.xml.
 
        Run the sitemap generator script after content changes:

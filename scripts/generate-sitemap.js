@@ -20,7 +20,7 @@ import { dirname, join } from 'path';
 const __dirname = dirname(fileURLToPath(import.meta.url));
 const PUBLIC_DIR = join(__dirname, '..', 'public');
 const SITE_URL = 'https://www.akdesigns.space';
-const API_BASE = 'https://api.akdesign.space/api';
+const API_BASE = 'https://api.akdesigns.space/api';
 const TODAY = new Date().toISOString().split('T')[0];
 
 // ── helpers ────────────────────────────────────────────────────
