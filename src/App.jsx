@@ -13,6 +13,8 @@ import ReviewButton from './components/ReviewButton';
 import ScrollToTop from './components/ScrollToTop';
 import ScrollToTopButton from './components/ScrollToTopButton';
 import NotFound from './pages/NotFound';
+import PrivacyPolicy from './pages/legal/PrivacyPolicy';
+import TermsOfService from './pages/legal/TermsOfService';
 
 // Admin Panel Components
 import ProtectedRoute from './components/ProtectedRoute';
@@ -45,6 +47,8 @@ function App() {
           <Route path="/blog" element={<><Navbar /><BlogPage /><ScrollToTopButton /><Footer /></>} />
           <Route path="/blog/:slug" element={<><Navbar /><BlogDetail /><ScrollToTopButton /><Footer /></>} />
           <Route path="/contact" element={<><Navbar /><ContactPage /><ScrollToTopButton /><Footer /></>} />
+          <Route path="/privacy-policy" element={<><Navbar /><PrivacyPolicy /><ScrollToTopButton /><Footer /></>} />
+          <Route path="/terms-of-service" element={<><Navbar /><TermsOfService /><ScrollToTopButton /><Footer /></>} />
           <Route path="*" element={<NotFound />} />
 
           {/* Admin Panel Routes */}
