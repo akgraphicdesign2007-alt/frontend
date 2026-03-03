@@ -76,10 +76,14 @@ const Projects = () => {
                                 className="project-item"
                             >
                                 <Link to={`/projects/${getSlug(project)}`} state={{ project }} className="project-card-link">
-                                    <div
-                                        className="project-image"
-                                        style={{ backgroundImage: project.imageUrl?.startsWith('http') ? `url(${project.imageUrl})` : `url(${project.imageUrl})` || 'none' }}
-                                    ></div>
+                                    <div className="project-image-wrapper">
+                                        <img
+                                            src={project.imageUrl}
+                                            alt={project.title}
+                                            className="project-image-main"
+                                            loading="lazy"
+                                        />
+                                    </div>
                                     <div className="project-content-overlay">
                                         <span className="project-cat-badge">{project.category}</span>
                                         <h3 className="project-title-premium">{project.title}</h3>

@@ -57,7 +57,7 @@ const About = () => {
                 >
                     <div className="about-image-container">
                         {content.image ? (
-                            <img src={content.image} alt="Studio Work" className="about-img" />
+                            <img src={content.image} alt="Studio Work" className="about-img" loading="lazy" />
                         ) : (
                             <div className="about-img-fallback">PORTFOLIO</div>
                         )}

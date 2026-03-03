@@ -99,7 +99,7 @@ const BlogManager = () => {
                     ) : (
                         blogs.map(b => (
                             <div key={b._id} className="blog-row card">
-                                <img className="row-thumb" src={b.imageUrl} alt="" />
+                                <img className="row-thumb" src={b.imageUrl} alt="" loading="lazy" />
                                 <div className="row-content">
                                     <div className="row-meta">
                                         <span className="cat">{b.category}</span>

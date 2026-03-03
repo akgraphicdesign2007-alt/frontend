@@ -129,6 +129,7 @@ const AboutManager = () => {
                                 <img
                                     src={newImage ? URL.createObjectURL(newImage) : content.image}
                                     alt="Profile Preview"
+                                    loading="lazy"
                                 />
                             ) : (
                                 <div className="image-placeholder-icon">

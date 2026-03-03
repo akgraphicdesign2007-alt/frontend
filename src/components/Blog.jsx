@@ -54,10 +54,12 @@ const Blog = ({ limit = 0 }) => {
                         >
                             <article className="blog-card-premium">
                                 <div className="blog-image-wrapper">
-                                    <div
-                                        className="blog-image-premium"
-                                        style={{ backgroundImage: post.imageUrl?.startsWith('http') ? `url(${post.imageUrl})` : `url(${post.imageUrl})` || 'none' }}
-                                    ></div>
+                                    <img
+                                        src={post.imageUrl}
+                                        alt={post.title}
+                                        className="blog-image-premium-main"
+                                        loading="lazy"
+                                    />
                                 </div>
                                 <div className="blog-card-content">
                                     <div className="blog-meta-premium">

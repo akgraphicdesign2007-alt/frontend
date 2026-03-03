@@ -35,15 +35,14 @@
     position: relative;
 }
 
-.blog-image-premium {
+.blog-image-premium-main {
     width: 100%;
     height: 100%;
-    background-size: cover;
-    background-position: center;
+    object-fit: cover;
     transition: transform 0.6s ease;
 }
 
-.blog-card-premium:hover .blog-image-premium {
+.blog-card-premium:hover .blog-image-premium-main {
     transform: scale(1.1);
 }
 

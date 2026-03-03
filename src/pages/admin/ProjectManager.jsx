@@ -103,7 +103,7 @@ const ProjectManager = () => {
                         projects.map(p => (
                             <div key={p._id} className="inventory-card card">
                                 <div className="item-preview">
-                                    <img src={p.imageUrl} alt="" />
+                                    <img src={p.imageUrl} alt="" loading="lazy" />
                                     <div className="category-tag">{p.category}</div>
                                 </div>
                                 <div className="item-details">

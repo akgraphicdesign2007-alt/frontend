@@ -53,12 +53,13 @@ const ToolsSection = () => {
                                     }}
                                 >
                                     {tool.isImage ? (
-                                        <img 
-                                            src={tool.icon} 
-                                            alt={tool.name} 
-                                            style={{ 
-                                                width: '60%', 
-                                                height: '60%', 
+                                        <img
+                                            src={tool.icon}
+                                            alt={tool.name}
+                                            loading="lazy"
+                                            style={{
+                                                width: '60%',
+                                                height: '60%',
                                                 objectFit: 'contain',
                                                 filter: 'brightness(1.1)'
                                             }}

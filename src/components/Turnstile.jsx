@@ -29,32 +29,30 @@ let scriptLoading = false;
 const readyCallbacks = [];
 
 function loadTurnstileScript(cb) {
-    if (scriptLoaded) { cb(); return; }
+    if (window.turnstile) {
+        cb();
+        return;
+    }
     readyCallbacks.push(cb);
     if (scriptLoading) return;
-
     scriptLoading = true;
-    const script = document.createElement('script');
 
-    // ?render=explicit prevents auto-rendering and lets us fully control placement.
-    // Suppress the 405 clearance-platform error by NOT passing compat=native —
-    // the error is benign on non-CF-proxied domains but noisy in DevTools.
-    script.src = 'https://challenges.cloudflare.com/turnstile/v0/api.js?render=explicit';
-    script.async = true;
-    script.defer = true;
+    const checkInterval = setInterval(() => {
+        if (window.turnstile) {
+            clearInterval(checkInterval);
+            scriptLoaded = true;
+            scriptLoading = false;
+            readyCallbacks.forEach(fn => fn());
+            readyCallbacks.length = 0;
+        }
+    }, 100);
 
-    script.onload = () => {
-        scriptLoaded = true;
-        readyCallbacks.forEach(fn => fn());
-        readyCallbacks.length = 0;
-    };
-
-    script.onerror = () => {
-        scriptLoading = false;
-        console.error('[Turnstile] Failed to load Cloudflare Turnstile script.');
-    };
-
-    document.head.appendChild(script);
+    setTimeout(() => {
+        if (!scriptLoaded) {
+            clearInterval(checkInterval);
+            scriptLoading = false;
+        }
+    }, 10000);
 }
 
 // ─────────────────────────────────────────────────────────────────

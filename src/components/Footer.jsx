@@ -59,7 +59,7 @@ const Footer = () => {
             <div className="container">
                 <div className="footer-top">
                     <div className="footer-brand">
-                        <span className="logo-text"> <img src="/logo.png" alt="logo" /></span>
+                        <span className="logo-text"> <img src="/logo.png" alt="logo" loading="lazy" /></span>
                         <p className="footer-tagline">Crafting digital experiences that matter.</p>
                     </div>
 
