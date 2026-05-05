@@ -46,11 +46,15 @@ const Hero = () => {
     }, []);
 
     const yText = useTransform(scrollYProgress, [0, 1], ["0%", "50%"]);
+    const yBg = useTransform(scrollYProgress, [0, 1], ["0%", "20%"]);
     const opacity = useTransform(scrollYProgress, [0, 0.5], [1, 0]);
 
     return (
         <section className="hero" ref={ref} style={{ position: 'relative' }}>
-            <div className="hero-background"></div>
+            <motion.div 
+                className="hero-background"
+                style={{ y: yBg }}
+            ></motion.div>
             <div className="hero-glow"></div>
 
             <motion.div
